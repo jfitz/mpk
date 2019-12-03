@@ -1,13 +1,7 @@
 #!/usr/bin/python3
 import fileinput
 import re
-
-class MpkError(Exception):
-  pass
-
-class MpkTokenError(MpkError):
-  def __init__(self, message):
-    self.message = message
+from MpkError import MpkTokenError
 
 def is_ident(word):
   return re.match('[\w]+$', word) is not None
@@ -36,10 +30,11 @@ try:
             raise MpkTokenError(word)
       # validate task has ID
       if 'id' not in task:
-        raise MpkTokenError('No ID')
+        raise MpkTokenError('No ID', fileinput.filelineno(), line)
       tasks.append(task)
 except MpkTokenError as error:
-  print('Error! ' + error.message)
+  print('Error: ' + error.message + '  in line: ' + str(error.lineno) + '  "' + error.line + '"')
+  print('Stopped.')
   quit()
   
 

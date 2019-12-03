@@ -1,0 +1,9 @@
+class MpkError(Exception):
+  pass
+
+class MpkTokenError(MpkError):
+  def __init__(self, message, lineno, line):
+    self.message = message
+    self.lineno = lineno
+    self.line = line
+
