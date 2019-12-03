@@ -11,10 +11,8 @@ def is_duration(word):
   return re.match('\d+[dw]$', word) is not None
 
 
-# read input and parse tasks and durations
-tasks = []
-
-try:
+def read_tasks():
+  tasks = []
   for line in fileinput.input([]):
     line = line.rstrip()
     words = line.split()
@@ -32,20 +30,28 @@ try:
       if 'id' not in task:
         raise MpkTokenError('No ID', fileinput.filelineno(), line)
       tasks.append(task)
+  return tasks
+
+
+def list_tasks(tasks):
+  print('task\tduration\tprecedents\tresources')
+
+  for task in tasks:
+    tid = task['id']
+    duration = ''
+    if 'duration' in task:
+      duration = task['duration']
+
+    print(tid + '\t' + duration)
+
+
+# read input and parse tasks and durations
+try:
+  tasks = read_tasks()
 except MpkTokenError as error:
   print('Error: ' + error.message + '  in line: ' + str(error.lineno) + '  "' + error.line + '"')
   print('Stopped.')
   quit()
   
-
-# print all tasks
-print('task\tduration\tprecedents\tresources')
-
-for task in tasks:
-  tid = task['id']
-  duration = ''
-  if 'duration' in task:
-    duration = task['duration']
-
-  print(tid + '\t' + duration)
+list_tasks(tasks)
 
