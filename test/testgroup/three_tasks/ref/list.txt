@@ -1,0 +1,4 @@
+task	duration	precedents	resources
+introduce	1d
+present	2d
+close	1d
