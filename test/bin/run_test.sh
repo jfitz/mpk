@@ -30,7 +30,7 @@ if [ -e "$TESTROOT/$TESTGROUP/$TESTNAME/ref/list.txt" ]
 then
     echo List program with options $GROUP_OPTIONS $TEST_OPTIONS
     cd "$TESTBED/$TESTNAME"
-    python3 mpk.py --list $TESTNAME.mpk <stdin.txt >list.txt $GROUP_OPTIONS $TEST_OPTIONS
+    python3 mpk.py <stdin.txt >list.txt $GROUP_OPTIONS $TEST_OPTIONS
     cd ../..
 
     echo Compare list...

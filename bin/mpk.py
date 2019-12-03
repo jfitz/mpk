@@ -1,7 +1,9 @@
 #!/usr/bin/python3
+import argparse
 import fileinput
 import re
-from MpkError import MpkTokenError
+from datetime import (date, timedelta)
+from MpkError import (MpkTokenError, MpkDecodeError)
 
 
 def is_ident(word):
@@ -10,6 +12,19 @@ def is_ident(word):
 
 def is_duration(word):
   return re.match(r'\d+[dw]$', word) is not None
+
+
+def decode_duration(word):
+  if len(word) == 0:
+    raise MpkDecodeError('Empty duration')
+
+  duration = timedelta(days = 0)
+
+  if word[-1] == 'd':
+    daycount = int(word[:-1])
+    duration = timedelta(days = daycount)
+
+  return duration
 
 
 def read_tasks():
@@ -21,7 +36,8 @@ def read_tasks():
       task = {}
       for word in words:
         if is_duration(word):
-          task['duration'] = word
+          duration = decode_duration(word)
+          task['duration'] = duration
         else:
           if is_ident(word):
             task['id'] = word
@@ -34,17 +50,53 @@ def read_tasks():
   return tasks
 
 
-def list_tasks(tasks):
-  print('task\tduration\tprecedents\tresources')
+def calculate_schedule(tasks):
+  project_start_date = date.today()
 
   for task in tasks:
+    if 'duration' in task:
+      duration = task['duration']
+      task['start'] = project_start_date
+      task['end'] = project_start_date + duration
+
+
+def format_task_list(task):
     tid = task['id']
     duration = ''
     if 'duration' in task:
       duration = task['duration']
 
-    print(tid + '\t' + duration)
+    return tid + '\t' + str(duration.days) + 'd'
 
+
+def print_list(tasks):
+  print('task\tduration\tprecedents\tresources')
+
+  for task in tasks:
+    print(format_task_list(task))
+
+
+def format_task_schedule(task):
+    tid = task['id']
+    start = ''
+    end = ''
+    if 'start' in task:
+      start = task['start']
+    if 'end' in task:
+      end = task['end']
+
+    return tid + '\t' + str(start) + '\t' + str(end)
+
+
+def print_schedule(tasks):
+  print('task\tstart\tend')
+
+  for task in tasks:
+    print(format_task_schedule(task))
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--schedule', help='Calculate schedule', action='store_true')
+args = parser.parse_args()
 
 # read input and parse tasks and durations
 try:
@@ -53,6 +105,10 @@ except MpkTokenError as error:
   print('Error: ' + error.message + '  in line: ' + str(error.lineno) + '  "' + error.line + '"')
   print('Stopped.')
   quit()
-  
-list_tasks(tasks)
 
+if not args.schedule:
+  print_list(tasks)
+
+if args.schedule:
+  calculate_schedule(tasks)
+  print_schedule(tasks)
