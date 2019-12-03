@@ -3,12 +3,13 @@ import fileinput
 import re
 from MpkError import MpkTokenError
 
+
 def is_ident(word):
-  return re.match('[\w]+$', word) is not None
+  return re.match(r'[\w]+$', word) is not None
 
 
 def is_duration(word):
-  return re.match('\d+[dw]$', word) is not None
+  return re.match(r'\d+[dw]$', word) is not None
 
 
 def read_tasks():
@@ -25,7 +26,7 @@ def read_tasks():
           if is_ident(word):
             task['id'] = word
           else:
-            raise MpkTokenError(word)
+            raise MpkTokenError(word, fileinput.filelineno(), line)
       # validate task has ID
       if 'id' not in task:
         raise MpkTokenError('No ID', fileinput.filelineno(), line)
