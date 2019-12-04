@@ -34,7 +34,7 @@ def decode_duration(word):
   return duration
 
 
-def split_to_lists(words, line):
+def split_to_lists(words):
   idents = []
   durations = []
 
@@ -64,7 +64,7 @@ def read_tasks():
     if len(words) > 0:
       try:
         # divide into lists for ident, duration
-        idents, durations = split_to_lists(words, line)
+        idents, durations = split_to_lists(words)
 
         # validation
         if len(idents) != 1:
