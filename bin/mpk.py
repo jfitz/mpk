@@ -9,15 +9,18 @@ from Task import Task
 
 
 def read_tasks():
+  known_idents = []
   tasks = []
+
   for line in fileinput.input([]):
     line = line.rstrip()
     # TODO: remove comment
 
     if len(line) > 0:
       try:
-        task = Task(line)
+        task = Task(line, known_idents)
         tasks.append(task)
+        known_idents.append(task.tid)
       except MpkTaskError as error:
         raise MpkParseError('Cannot build task: ' + error.message, fileinput.filelineno(), line)
 

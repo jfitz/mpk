@@ -1,2 +1,2 @@
 task	duration	precedents	resources
-introduce	1d
+introduce	1d	[]

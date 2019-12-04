@@ -37,6 +37,19 @@ def split_to_lists(words):
     return idents, durations
 
 
+def split_idents(idents, known_idents):
+    new_idents = []
+    old_idents = []
+
+    for ident in idents:
+        if ident in known_idents:
+            old_idents.append(ident)
+        else:
+            new_idents.append(ident)
+    
+    return new_idents, old_idents
+
+
 def decode_duration(word):
     if len(word) == 0:
         raise MpkDurationError('Empty duration')
@@ -51,25 +64,28 @@ def decode_duration(word):
 
 
 class Task:
-    def __init__(self, line):
+    def __init__(self, line, known_idents):
         words = line.split()
         # divide into lists for ident, duration
         idents, durations = split_to_lists(words)
+        new_idents, old_idents = split_idents(idents, known_idents)
 
         # validation
-        if len(idents) != 1:
+        if len(new_idents) != 1:
             raise MpkTaskError('No single new identifier')
 
         if len(durations) > 1:
             raise MpkTaskError('More than one duration')
 
         # build task
-        self.tid = idents[0]
+        self.tid = new_idents[0]
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
             except MpkDurationError as error:
                 raise MpkTaskError(error.message)
+        
+        self.predecessors = old_idents
 
 
     def set_start(self, start):
@@ -81,10 +97,12 @@ class Task:
 
 
     def format_list(self):
-        if self.duration is None:
-            s = self.tid
-        else:
-            s = self.tid + '\t' + str(self.duration.days) + 'd'
+        s = self.tid
+
+        if self.duration is not None:
+            s += '\t' + str(self.duration.days) + 'd'
+
+        s += '\t' + '[' + ', '.join(self.predecessors) + ']'
 
         return s
 
