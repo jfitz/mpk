@@ -13,8 +13,9 @@ def read_tasks():
   tasks = {}
 
   for line in fileinput.input([]):
+    if '#' in line:
+      line, _ = line.split('#', maxsplit=2)
     line = line.rstrip()
-    # TODO: remove comment
 
     if len(line) > 0:
       try:
@@ -71,4 +72,3 @@ if args.list:
 if args.schedule:
   calculate_schedule(tids, tasks)
   print_schedule(tids, tasks)
-  

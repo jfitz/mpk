@@ -1,0 +1,2 @@
+task	duration	predecessors	resources
+introduce	1d	[]
