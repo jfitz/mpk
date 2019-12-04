@@ -64,11 +64,11 @@ def decode_duration(word):
 
 
 class Task:
-    def __init__(self, line, known_idents):
+    def __init__(self, line, known_tids):
         words = line.split()
         # divide into lists for ident, duration
         idents, durations = split_to_lists(words)
-        new_idents, old_idents = split_idents(idents, known_idents)
+        new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
         if len(new_idents) != 1:

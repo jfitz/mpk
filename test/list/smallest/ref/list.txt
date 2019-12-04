@@ -1,2 +1,2 @@
-task	duration	precedents	resources
+task	duration	predecessors	resources
 introduce	1d	[]

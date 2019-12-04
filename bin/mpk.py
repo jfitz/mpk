@@ -9,8 +9,8 @@ from Task import Task
 
 
 def read_tasks():
-  known_idents = []
-  tasks = []
+  known_tids = []
+  tasks = {}
 
   for line in fileinput.input([]):
     line = line.rstrip()
@@ -18,33 +18,37 @@ def read_tasks():
 
     if len(line) > 0:
       try:
-        task = Task(line, known_idents)
-        tasks.append(task)
-        known_idents.append(task.tid)
+        task = Task(line, known_tids)
+        tid = task.tid
+        known_tids.append(tid)
+        tasks[tid] = task
       except MpkTaskError as error:
         raise MpkParseError('Cannot build task: ' + error.message, fileinput.filelineno(), line)
 
-  return tasks
+  return known_tids, tasks
 
 
-def calculate_schedule(tasks):
+def calculate_schedule(tids, tasks):
   project_start_date = date.today()
 
-  for task in tasks:
+  for tid in tids:
+    task = tasks[tid]
     task.set_start(project_start_date)
 
 
-def print_list(tasks):
-  print('task\tduration\tprecedents\tresources')
+def print_list(tids, tasks):
+  print('task\tduration\tpredecessors\tresources')
 
-  for task in tasks:
+  for tid in tids:
+    task = tasks[tid]
     print(task.format_list())
 
 
-def print_schedule(tasks):
+def print_schedule(tids, tasks):
   print('task\tstart\tend')
 
-  for task in tasks:
+  for tid in tids:
+    task = tasks[tid]
     print(task.format_schedule())
 
 
@@ -55,15 +59,16 @@ args = parser.parse_args()
 
 # read input and parse tasks and durations
 try:
-  tasks = read_tasks()
+  tids, tasks = read_tasks()
 except MpkParseError as error:
   print('Error: ' + error.message + '  in line: ' + str(error.lineno) + '  "' + error.line + '"')
   print('Stopped.')
   quit()
 
 if args.list:
-  print_list(tasks)
+  print_list(tids, tasks)
 
 if args.schedule:
-  calculate_schedule(tasks)
-  print_schedule(tasks)
+  calculate_schedule(tids, tasks)
+  print_schedule(tids, tasks)
+  

@@ -1,4 +1,4 @@
-task	duration	precedents	resources
+task	duration	predecessors	resources
 introduce	1d	[]
 present	2d	[]
 close	1d	[]
