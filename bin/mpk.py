@@ -3,7 +3,11 @@ import argparse
 import fileinput
 import re
 from datetime import (date, timedelta)
-from MpkError import (MpkTokenError, MpkDecodeError)
+from MpkError import (
+  MpkTokenError,
+   MpkDecodeError,
+   MpkParseError
+   )
 from Task import Task
 
 
@@ -28,23 +32,55 @@ def decode_duration(word):
   return duration
 
 
+def split_to_lists(words, line):
+  idents = []
+  durations = []
+
+  for word in words:
+    handled = False
+
+    if is_duration(word):
+      durations.append(word)
+      handled = True
+
+    if is_ident(word) and not handled:
+      idents.append(word)
+      handled = True
+      
+    if not handled:
+      raise MpkTokenError('Unknown token ' + word)
+
+  return idents, durations
+
+
 def read_tasks():
   tasks = []
   for line in fileinput.input([]):
     line = line.rstrip()
     words = line.split()
+
     if len(words) > 0:
-      task = Task()
-      for word in words:
-        if is_duration(word):
-          task.set_duration(decode_duration(word))
-        else:
-          if is_ident(word):
-            task.set_tid(word)
-          else:
-            raise MpkTokenError(word, fileinput.filelineno(), line)
-      # validate task has ID
-      tasks.append(task)
+      try:
+        # divide into lists for ident, duration
+        idents, durations = split_to_lists(words, line)
+
+        # validation
+        if len(idents) != 1:
+          raise MpkParseError('No single new identifier', fileinput.filelineno(), line)
+
+        if len(durations) > 1:
+          raise MpkParseError('More than one duration', fileinput.filelineno(), line)
+
+        # build task
+        task = Task(idents[0])
+        if len(durations) == 1:
+          task.set_duration(decode_duration(durations[0]))
+
+        tasks.append(task)
+
+      except MpkTokenError as error:
+        raise MpkParseError('Cannot build task: ' + error.message, fileinput.filelineno(), line)
+
   return tasks
 
 
@@ -77,7 +113,7 @@ args = parser.parse_args()
 # read input and parse tasks and durations
 try:
   tasks = read_tasks()
-except MpkTokenError as error:
+except MpkParseError as error:
   print('Error: ' + error.message + '  in line: ' + str(error.lineno) + '  "' + error.line + '"')
   print('Stopped.')
   quit()

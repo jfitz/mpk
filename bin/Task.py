@@ -1,5 +1,5 @@
 class Task:
-    def set_tid(self, tid):
+    def __init__(self, tid):
         self.tid = tid
 
 

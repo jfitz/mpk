@@ -1,2 +1,2 @@
-Error: No ID  in line: 2  "1d"
+Error: No single new identifier  in line: 2  "1d"
 Stopped.
