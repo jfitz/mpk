@@ -22,7 +22,7 @@ def read_tasks():
     if len(line) > 0:
       # build a task
       try:
-        task = Task(line, known_tids, project_start_date)
+        task = Task(line, known_tids, tasks, project_start_date)
         tid = task.tid
         known_tids.append(tid)
         tasks[tid] = task

@@ -64,7 +64,7 @@ def decode_duration(word):
 
 
 class Task:
-    def __init__(self, line, known_tids, project_start_date):
+    def __init__(self, line, known_tids, tasks, project_start_date):
         words = line.split()
         # divide into lists for ident, duration
         idents, durations = split_to_lists(words)
@@ -79,11 +79,22 @@ class Task:
 
         # assign values
         self.tid = new_idents[0]
-
         self.predecessors = old_idents
-        self.start = project_start_date
-        self.end = self.start
 
+        # must start no earlier than project start date
+        possible_start = project_start_date
+        # must start no earlier than predecessor end date + 1
+        one_day = timedelta(days = 1)
+        for tid in self.predecessors:
+            task = tasks[tid]
+            task_possible_start = task.end + one_day
+            if task_possible_start > possible_start:
+                possible_start = task_possible_start
+
+        self.start = possible_start
+
+        # decode task duration and compute end date
+        self.end = self.start
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
