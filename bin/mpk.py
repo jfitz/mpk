@@ -4,6 +4,7 @@ import fileinput
 import re
 from datetime import (date, timedelta)
 from MpkError import (MpkTokenError, MpkDecodeError)
+from Task import Task
 
 
 def is_ident(word):
@@ -33,19 +34,16 @@ def read_tasks():
     line = line.rstrip()
     words = line.split()
     if len(words) > 0:
-      task = {}
+      task = Task()
       for word in words:
         if is_duration(word):
-          duration = decode_duration(word)
-          task['duration'] = duration
+          task.set_duration(decode_duration(word))
         else:
           if is_ident(word):
-            task['id'] = word
+            task.set_tid(word)
           else:
             raise MpkTokenError(word, fileinput.filelineno(), line)
       # validate task has ID
-      if 'id' not in task:
-        raise MpkTokenError('No ID', fileinput.filelineno(), line)
       tasks.append(task)
   return tasks
 
@@ -54,45 +52,22 @@ def calculate_schedule(tasks):
   project_start_date = date.today()
 
   for task in tasks:
-    if 'duration' in task:
-      duration = task['duration']
-      task['start'] = project_start_date
-      task['end'] = project_start_date + duration
-
-
-def format_task_list(task):
-    tid = task['id']
-    duration = ''
-    if 'duration' in task:
-      duration = task['duration']
-
-    return tid + '\t' + str(duration.days) + 'd'
+    task.set_start(project_start_date)
 
 
 def print_list(tasks):
   print('task\tduration\tprecedents\tresources')
 
   for task in tasks:
-    print(format_task_list(task))
-
-
-def format_task_schedule(task):
-    tid = task['id']
-    start = ''
-    end = ''
-    if 'start' in task:
-      start = task['start']
-    if 'end' in task:
-      end = task['end']
-
-    return tid + '\t' + str(start) + '\t' + str(end)
+    print(task.format_list())
 
 
 def print_schedule(tasks):
   print('task\tstart\tend')
 
   for task in tasks:
-    print(format_task_schedule(task))
+    print(task.format_schedule())
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--list', help='List items', action='store_true')
