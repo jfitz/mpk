@@ -22,3 +22,8 @@ class MpkParseError(MpkError):
 class MpkDurationError(MpkError):
   def __init__(self, message):
     self.message = message
+
+
+class MpkScheduleError(MpkError):
+  def __init__(self, message):
+    self.message = message

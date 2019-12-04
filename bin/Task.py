@@ -2,10 +2,11 @@ import re
 from datetime import (date, timedelta)
 
 from MpkError import (
-    MpkTaskError,
-    MpkTokenError,
     MpkDurationError,
-    MpkParseError
+    MpkParseError,
+    MpkScheduleError,
+    MpkTaskError,
+    MpkTokenError
 )
 
 def is_ident(word):
@@ -63,6 +64,11 @@ def decode_duration(word):
     return duration
 
 
+def is_nonworkday(d):
+    dow = d.weekday()
+    return dow >= 5
+
+
 class Task:
     def __init__(self, line, known_tids, tasks, project_start_date):
         words = line.split()
@@ -104,6 +110,15 @@ class Task:
                 for i in range(0, day_count):
                     self.work_days.append(self.end)
                     self.end = self.end + one_day
+                    # while this new day is a non-workday
+                    # move to the next day (stop after 14)
+                    limit = 14
+                    count = 0
+                    while is_nonworkday(self.end):
+                        self.end = self.end + one_day
+                        count += 1
+                        if count > limit:
+                            raise MpkScheduleError('More than ' + str(limit) + ' non-workdays')
             except MpkDurationError as error:
                 raise MpkTaskError(error.message)
         
