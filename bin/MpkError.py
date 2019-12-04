@@ -7,6 +7,11 @@ class MpkTokenError(MpkError):
     self.message = message
 
 
+class MpkTaskError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
 class MpkParseError(MpkError):
   def __init__(self, message, lineno, line):
     self.message = message
@@ -14,6 +19,6 @@ class MpkParseError(MpkError):
     self.line = line
 
 
-class MpkDecodeError(MpkError):
+class MpkDurationError(MpkError):
   def __init__(self, message):
     self.message = message

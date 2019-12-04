@@ -2,87 +2,23 @@
 
 import argparse
 import fileinput
-import re
-from datetime import (date, timedelta)
+from datetime import date
 
-from MpkError import (
-  MpkTokenError,
-   MpkDecodeError,
-   MpkParseError
-   )
+from MpkError import (MpkTaskError, MpkParseError)
 from Task import Task
-
-
-def is_ident(word):
-  return re.match(r'[\w]+$', word) is not None
-
-
-def is_duration(word):
-  return re.match(r'\d+[dw]$', word) is not None
-
-
-def decode_duration(word):
-  if len(word) == 0:
-    raise MpkDecodeError('Empty duration')
-
-  duration = timedelta(days = 0)
-
-  if word[-1] == 'd':
-    daycount = int(word[:-1])
-    duration = timedelta(days = daycount)
-
-  return duration
-
-
-def split_to_lists(words):
-  idents = []
-  durations = []
-
-  for word in words:
-    handled = False
-
-    if is_duration(word):
-      durations.append(word)
-      handled = True
-
-    if is_ident(word) and not handled:
-      idents.append(word)
-      handled = True
-      
-    if not handled:
-      raise MpkTokenError('Unknown token ' + word)
-
-  return idents, durations
 
 
 def read_tasks():
   tasks = []
   for line in fileinput.input([]):
     line = line.rstrip()
-    words = line.split()
+    # TODO: remove comment
 
-    if len(words) > 0:
+    if len(line) > 0:
       try:
-        # divide into lists for ident, duration
-        idents, durations = split_to_lists(words)
-
-        # validation
-        if len(idents) != 1:
-          raise MpkParseError('No single new identifier', fileinput.filelineno(), line)
-
-        if len(durations) > 1:
-          raise MpkParseError('More than one duration', fileinput.filelineno(), line)
-
-        # build task
-        if len(durations) == 1:
-          duration = decode_duration(durations[0])
-          task = Task(idents[0], duration)
-        else:
-          task = Task(idents[0])
-
+        task = Task(line)
         tasks.append(task)
-
-      except MpkTokenError as error:
+      except MpkTaskError as error:
         raise MpkParseError('Cannot build task: ' + error.message, fileinput.filelineno(), line)
 
   return tasks
