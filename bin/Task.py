@@ -1,20 +1,27 @@
 class Task:
-    def __init__(self, tid):
+    def __init__(self, tid, duration = None):
         self.tid = tid
-
-
-    def set_duration(self, duration):
         self.duration = duration
 
 
     def set_start(self, start):
         self.start = start
-        self.end = start + self.duration
+        if self.duration is None:
+            self.end = self.start
+        else:
+            self.end = start + self.duration
 
 
     def format_list(self):
-        return self.tid + '\t' + str(self.duration.days) + 'd'
+        if self.duration is None:
+            s = self.tid
+        else:
+            s = self.tid + '\t' + str(self.duration.days) + 'd'
+
+        return s
 
 
     def format_schedule(self):
-        return self.tid + '\t' + str(self.start) + '\t' + str(self.end)
+        s = self.tid + '\t' + str(self.start) + '\t' + str(self.end)
+
+        return s

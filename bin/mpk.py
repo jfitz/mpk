@@ -74,9 +74,11 @@ def read_tasks():
           raise MpkParseError('More than one duration', fileinput.filelineno(), line)
 
         # build task
-        task = Task(idents[0])
         if len(durations) == 1:
-          task.set_duration(decode_duration(durations[0]))
+          duration = decode_duration(durations[0])
+          task = Task(idents[0], duration)
+        else:
+          task = Task(idents[0])
 
         tasks.append(task)
 
