@@ -95,6 +95,7 @@ def print_schedule(tasks):
     print(format_task_schedule(task))
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--list', help='List items', action='store_true')
 parser.add_argument('--schedule', help='Calculate schedule', action='store_true')
 args = parser.parse_args()
 
@@ -106,7 +107,7 @@ except MpkTokenError as error:
   print('Stopped.')
   quit()
 
-if not args.schedule:
+if args.list:
   print_list(tasks)
 
 if args.schedule:
