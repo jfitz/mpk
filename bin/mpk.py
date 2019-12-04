@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+
 import argparse
 import fileinput
 import re
 from datetime import (date, timedelta)
+
 from MpkError import (
   MpkTokenError,
    MpkDecodeError,
