@@ -64,7 +64,7 @@ def decode_duration(word):
 
 
 class Task:
-    def __init__(self, line, known_tids):
+    def __init__(self, line, known_tids, project_start_date):
         words = line.split()
         # divide into lists for ident, duration
         idents, durations = split_to_lists(words)
@@ -77,24 +77,20 @@ class Task:
         if len(durations) > 1:
             raise MpkTaskError('More than one duration')
 
-        # build task
+        # assign values
         self.tid = new_idents[0]
+
+        self.predecessors = old_idents
+        self.start = project_start_date
+        self.end = self.start
+
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
+                self.end = self.start + self.duration
             except MpkDurationError as error:
                 raise MpkTaskError(error.message)
         
-        self.predecessors = old_idents
-
-
-    def set_start(self, start):
-        self.start = start
-        if self.duration is None:
-            self.end = self.start
-        else:
-            self.end = start + self.duration
-
 
     def format_list(self):
         s = self.tid
