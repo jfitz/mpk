@@ -1,0 +1,6 @@
+
+10d analysis
+20d design analysis
+30d coding design
+20d testing coding
+4d deploy testing

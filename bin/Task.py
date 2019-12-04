@@ -93,12 +93,17 @@ class Task:
 
         self.start = possible_start
 
-        # decode task duration and compute end date
+        # decode task duration and compute end date and work days
+        self.work_days = []
         self.end = self.start
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
-                self.end = self.start + self.duration
+                self.end = self.start
+                day_count = self.duration.days
+                for i in range(0, day_count):
+                    self.work_days.append(self.end)
+                    self.end = self.end + one_day
             except MpkDurationError as error:
                 raise MpkTaskError(error.message)
         
@@ -110,6 +115,12 @@ class Task:
             s += '\t' + str(self.duration.days) + 'd'
 
         s += '\t' + '[' + ', '.join(self.predecessors) + ']'
+
+        if len(self.work_days) > 0:
+            strings = []
+            for work_day in self.work_days:
+                strings.append(str(work_day))
+            s += '\t' + '[' + ', '.join(strings) + ']'
 
         return s
 
