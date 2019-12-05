@@ -131,7 +131,7 @@ class Task:
 
         # decode task duration and compute last day and work days
         self.work_days = []
-        self.last_day = self.first_day
+        self.last_day = self.first_day - one_day
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
