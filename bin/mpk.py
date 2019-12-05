@@ -53,6 +53,7 @@ def read_tasks():
   tasks = {}
   level_tids = { 0: None }
   levels = [0]
+  non_dows = [5, 6]
 
   for line in fileinput.input([]):
     # remove comments
@@ -84,7 +85,7 @@ def read_tasks():
         idents, durations, dates = split_to_lists(words)
 
         if len(idents) > 0 or len(durations) > 0:
-          task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid)
+          task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
           tid = task.tid
           known_tids.append(tid)
           tasks[tid] = task
