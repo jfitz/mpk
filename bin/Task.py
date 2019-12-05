@@ -111,6 +111,7 @@ class Task:
         # assign values
         self.tid = new_idents[0]
         self.predecessors = old_idents
+        self.duration = None
 
         # must start no earlier than project start date
         possible_start = project_start_date
