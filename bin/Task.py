@@ -99,7 +99,11 @@ class Task:
     def __init__(self, line, known_tids, tasks, project_first_day_date, level, parent_tid):
         words = line.split()
         # divide into lists for ident, duration
-        idents, durations = split_to_lists(words)
+        try:
+            idents, durations = split_to_lists(words)
+        except MpkTokenError as error:
+            raise MpkTaskError(error.message)
+
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
