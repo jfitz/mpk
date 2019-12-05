@@ -50,7 +50,6 @@ def read_tasks():
         raise MpkParseError(
           'Cannot build task: ' + error.message, fileinput.filelineno(), line)
 
-      prev_level = level
   return known_tids, tasks
 
 
@@ -80,8 +79,8 @@ args = parser.parse_args()
 try:
   tids, tasks = read_tasks()
 except MpkParseError as error:
-  print('Error: ' + error.message + '  in line: ' + str(error.lineno) +
-        '  "' + error.line + '"')
+  print(error.line)
+  print('Error: ' + error.message + '  in line: ' + str(error.lineno))
   print('Stopped.')
   quit()
 
