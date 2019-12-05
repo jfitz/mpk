@@ -110,6 +110,24 @@ def print_list(tids, tasks):
 
 
 def print_schedule(tids, tasks):
+  project_first_date = None
+  project_last_date = None
+
+  if len(tasks) > 0:
+    tid = tids[0]
+    project_first_date = tasks[tid].first_day
+    project_last_date = tasks[tid].last_day
+
+  for tid in tids:
+    task = tasks[tid]
+    if task.first_day < project_first_date:
+      project_first_date = task.first_day
+    if task.last_day > project_last_date:
+      project_last_date = task.last_day
+
+  print('Project first day: ' + str(project_first_date))
+  print('Project last day: ' + str(project_last_date))
+  print()
   print('task\tstart\tend')
 
   for tid in tids:

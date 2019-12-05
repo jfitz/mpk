@@ -1,3 +1,6 @@
+Project first day: 2019-12-05
+Project last day: 2019-12-12
+
 task	start	end
 introduce	2019-12-05	2019-12-09
 announcements	2019-12-05	2019-12-05
