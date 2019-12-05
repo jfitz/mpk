@@ -69,6 +69,31 @@ def is_nonworkday(d):
     return dow >= 5
 
 
+def calc_work_days(start, duration):
+    day_count = duration.days
+    one_day = timedelta(days = 1)
+    end = start
+    walk = start
+    work_days = []
+    for _ in range(0, day_count):
+        work_days.append(walk)
+        walk = walk + one_day
+        # while this new day is a non-workday
+        # move to the next day (stop after 14)
+        limit = 14
+        count = 0
+        while is_nonworkday(walk):
+            walk = walk + one_day
+            count += 1
+            if count > limit:
+                raise MpkScheduleError('More than ' + str(limit) + ' non-workdays')
+    
+    if len(work_days) > 0:
+        end = work_days[-1]
+
+    return end, work_days
+
+
 class Task:
     def __init__(self, line, known_tids, tasks, project_start_date):
         words = line.split()
@@ -105,21 +130,8 @@ class Task:
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
-                self.end = self.start
-                day_count = self.duration.days
-                for i in range(0, day_count):
-                    self.work_days.append(self.end)
-                    self.end = self.end + one_day
-                    # while this new day is a non-workday
-                    # move to the next day (stop after 14)
-                    limit = 14
-                    count = 0
-                    while is_nonworkday(self.end):
-                        self.end = self.end + one_day
-                        count += 1
-                        if count > limit:
-                            raise MpkScheduleError('More than ' + str(limit) + ' non-workdays')
-            except MpkDurationError as error:
+                self.end, self.work_days = calc_work_days(self.start, self.duration)
+            except (MpkDurationError, MpkScheduleError) as error:
                 raise MpkTaskError(error.message)
         
 
