@@ -69,11 +69,11 @@ def is_nonworkday(d):
     return dow >= 5
 
 
-def calc_work_days(start, duration):
+def calc_work_days(first_day, duration):
     day_count = duration.days
     one_day = timedelta(days = 1)
-    end = start
-    walk = start
+    last_day = first_day
+    walk = first_day
     work_days = []
     for _ in range(0, day_count):
         work_days.append(walk)
@@ -86,16 +86,17 @@ def calc_work_days(start, duration):
             walk = walk + one_day
             count += 1
             if count > limit:
-                raise MpkScheduleError('More than ' + str(limit) + ' non-workdays')
+                raise MpkScheduleError(
+                    'More than ' + str(limit) + ' non-workdays')
     
     if len(work_days) > 0:
-        end = work_days[-1]
+        last_day = work_days[-1]
 
-    return end, work_days
+    return last_day, work_days
 
 
 class Task:
-    def __init__(self, line, known_tids, tasks, project_start_date):
+    def __init__(self, line, known_tids, tasks, project_first_day_date, level, parent_tid):
         words = line.split()
         # divide into lists for ident, duration
         idents, durations = split_to_lists(words)
@@ -111,33 +112,44 @@ class Task:
         # assign values
         self.tid = new_idents[0]
         self.predecessors = old_idents
+        if parent_tid is not None:
+            self.predecessors.append(parent_tid)
         self.duration = None
+        self.level = level
 
         # must start no earlier than project start date
-        possible_start = project_start_date
+        possible_first_day = project_first_day_date
         # must start no earlier than predecessor end date + 1
         one_day = timedelta(days = 1)
         for tid in self.predecessors:
             task = tasks[tid]
-            task_possible_start = task.end + one_day
-            if task_possible_start > possible_start:
-                possible_start = task_possible_start
+            task_possible_first_day = task.last_day + one_day
+            if task_possible_first_day > possible_first_day:
+                possible_first_day = task_possible_first_day
 
-        self.start = possible_start
+        self.first_day = possible_first_day
 
-        # decode task duration and compute end date and work days
+        # decode task duration and compute last day and work days
         self.work_days = []
-        self.end = self.start
+        self.last_day = self.first_day
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
-                self.end, self.work_days = calc_work_days(self.start, self.duration)
+                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration)
+
             except (MpkDurationError, MpkScheduleError) as error:
                 raise MpkTaskError(error.message)
-        
+
+
+    def update(self, child_task):
+        if child_task.last_day > self.last_day:
+            self.last_day = child_task.last_day
+
 
     def format_list(self):
         s = self.tid
+
+        s += ' (' + str(self.level) + ')'
 
         if self.duration is not None:
             s += '\t' + str(self.duration.days) + 'd'
@@ -154,6 +166,6 @@ class Task:
 
 
     def format_schedule(self):
-        s = self.tid + '\t' + str(self.start) + '\t' + str(self.end)
+        s = self.tid + '\t' + str(self.first_day) + '\t' + str(self.last_day)
 
         return s

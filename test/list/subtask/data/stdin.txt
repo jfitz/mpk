@@ -2,8 +2,8 @@
 introduce
   1d announcements
   2d orientation
-presentations
+presentations introduce
   1d classes
   1d sessions
-close 1d
+close 1d presentations
 
