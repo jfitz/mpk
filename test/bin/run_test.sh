@@ -30,7 +30,7 @@ if [ -e "$TESTROOT/$TESTGROUP/$TESTNAME/ref/list.txt" ]
 then
     echo List program with options $GROUP_OPTIONS $TEST_OPTIONS
     cd "$TESTBED/$TESTNAME"
-    python3 mpk.py <stdin.txt >list.txt $GROUP_OPTIONS $TEST_OPTIONS
+    python3 mpk.py --list <stdin.txt >list.txt $GROUP_OPTIONS $TEST_OPTIONS
     cd ../..
 
     echo Compare list...
@@ -41,6 +41,24 @@ then
     then
 	((NUM_FAIL+=1))
 	cp "$TESTBED/$TESTNAME/list.txt" "$TESTROOT/$TESTGROUP/$TESTNAME/ref/list.txt"
+    fi
+fi
+
+if [ -e "$TESTROOT/$TESTGROUP/$TESTNAME/ref/schedule.txt" ]
+then
+    echo Schedule program with options $GROUP_OPTIONS $TEST_OPTIONS
+    cd "$TESTBED/$TESTNAME"
+    python3 mpk.py --schedule <stdin.txt >schedule.txt $GROUP_OPTIONS $TEST_OPTIONS
+    cd ../..
+
+    echo Compare schedule...
+    diff "$TESTROOT/$TESTGROUP/$TESTNAME/ref/schedule.txt" "$TESTBED/$TESTNAME/schedule.txt"
+    ((ECODE=$?))
+
+    if [ $ECODE -ne 0 ]
+    then
+	((NUM_FAIL+=1))
+	cp "$TESTBED/$TESTNAME/schedule.txt" "$TESTROOT/$TESTGROUP/$TESTNAME/ref/schedule.txt"
     fi
 fi
 
