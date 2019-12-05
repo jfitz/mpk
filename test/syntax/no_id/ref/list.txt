@@ -1,2 +1,3 @@
-Error: Cannot build task: No single new identifier  in line: 2  "1d"
+1d
+Error: Cannot build task: No single new identifier  in line: 2
 Stopped.

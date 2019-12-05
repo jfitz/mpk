@@ -1,4 +1,3 @@
-import re
 from datetime import (date, timedelta)
 
 from MpkError import (
@@ -8,35 +7,6 @@ from MpkError import (
     MpkTaskError,
     MpkTokenError
 )
-
-def is_ident(word):
-    return re.match(r'[\w]+$', word) is not None
-
-
-def is_duration(word):
-    return re.match(r'\d+[dw]$', word) is not None
-
-
-def split_to_lists(words):
-    idents = []
-    durations = []
-
-    for word in words:
-        handled = False
-
-        if is_duration(word):
-            durations.append(word)
-            handled = True
-
-        if is_ident(word) and not handled:
-            idents.append(word)
-            handled = True
-        
-        if not handled:
-            raise MpkTokenError('Unknown token ' + word)
-
-    return idents, durations
-
 
 def split_idents(idents, known_idents):
     new_idents = []
@@ -96,14 +66,7 @@ def calc_work_days(first_day, duration):
 
 
 class Task:
-    def __init__(self, line, known_tids, tasks, project_first_day_date, level, parent_tid):
-        words = line.split()
-        # divide into lists for ident, duration
-        try:
-            idents, durations = split_to_lists(words)
-        except MpkTokenError as error:
-            raise MpkTaskError(error.message)
-
+    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid):
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
