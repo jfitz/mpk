@@ -71,6 +71,18 @@ def calculate_level(line, levels, level_tids, known_tids):
     return level
 
 
+def build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows):
+    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
+    tid = task.tid
+    tasks[tid] = task
+
+    if parent_tid is not None:
+        parent_task = tasks[parent_tid]
+        parent_task.update(task)
+
+    known_tids.append(tid)
+
+
 def read_tasks():
   project_first_date = date.today()
   known_tids = []
@@ -94,16 +106,14 @@ def read_tasks():
         idents, durations, dates = split_to_lists(words)
 
         if len(idents) > 0 or len(durations) > 0:
-          task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
-          tid = task.tid
-          known_tids.append(tid)
-          tasks[tid] = task
-          if parent_tid is not None:
-            parent_task = tasks[parent_tid]
-            parent_task.update(task)
+          build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
         else:
           if len(dates) == 1:
             project_first_date = datetime.strptime(dates[0], "%Y-%m-%d").date()
+          else:
+            raise MpkParseError(
+              'Unknown line', fileinput.filelineno(), line)
+
       except (MpkTokenError, MpkTaskError) as error:
         raise MpkParseError(
           'Cannot build task: ' + error.message, fileinput.filelineno(), line)
