@@ -135,6 +135,9 @@ class Task:
 
 
     def format_schedule(self):
-        s = self.tid + '\t' + str(self.first_day) + '\t' + str(self.last_day)
+        s = ' ' * self.level + self.tid
+
+        s += '\t' + str(self.first_day)
+        s += '\t' + str(self.last_day)
 
         return s

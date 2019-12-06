@@ -14,7 +14,7 @@ def is_date(word):
 
 
 def is_ident(word):
-    return re.match(r'[A-Za-z]\w+$', word) is not None
+    return re.match(r'[A-Za-z][A-Za-z0-9-_]*$', word) is not None
 
 
 def is_duration(word):
