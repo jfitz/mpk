@@ -9,6 +9,14 @@ from MpkError import (MpkTaskError, MpkParseError, MpkTokenError)
 from Task import Task
 
 
+def remove_comments(line):
+    # remove comments
+    if '#' in line:
+      line, _ = line.split('#', maxsplit=1)
+
+    return line.rstrip()
+
+
 def is_date(word):
     return re.match(r'\d\d\d\d-\d\d-\d\d$', word) is not None
 
@@ -47,6 +55,22 @@ def split_to_lists(words):
     return idents, durations, dates
 
 
+def calculate_level(line, levels, level_tids, known_tids):
+    level = len(line) - len(line.lstrip())
+    if level > levels[-1]:
+        levels.append(level)
+        level_tids[level] = known_tids[-1]
+    if level < levels[-1]:
+        if level not in level_tids:
+            raise MpkParseError('Unexpected indentation',
+                                fileinput.filelineno(), line)
+        while levels[-1] > level:
+            del level_tids[levels[-1]]
+            del levels[-1]
+    
+    return level
+
+
 def read_tasks():
   project_first_date = date.today()
   known_tids = []
@@ -56,25 +80,10 @@ def read_tasks():
   non_dows = [5, 6]
 
   for line in fileinput.input([]):
-    # remove comments
-    if '#' in line:
-      line, _ = line.split('#', maxsplit=1)
-    line = line.rstrip()
+    line = remove_comments(line)
 
     if len(line) > 0:
-      # calculate level
-      level = len(line) - len(line.lstrip())
-      if level > levels[-1]:
-        levels.append(level)
-        level_tids[level] = known_tids[-1]
-      if level < levels[-1]:
-        if level not in level_tids:
-          raise MpkParseError('Unexpected indentation',
-                              fileinput.filelineno(), line)
-        while levels[-1] > level:
-          del level_tids[levels[-1]]
-          del levels[-1]
-
+      level = calculate_level(line, levels, level_tids, known_tids)
       parent_tid = level_tids[level]
 
       # build a task
