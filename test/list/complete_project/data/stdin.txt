@@ -6,7 +6,7 @@
 
 #.no-work sunday
 #.no-work saturday
-#.holiday 2019-12-25     Christmas Day
+#.holiday 2019-12-25   #  Christmas Day
 
 analysis
   3d on-site-meetings # mike-smith -1
