@@ -5,7 +5,12 @@ from datetime import date, datetime
 import fileinput
 import re
 
-from MpkError import (MpkTaskError, MpkParseError, MpkTokenError)
+from MpkError import (
+  MpkDirectiveError,
+  MpkParseError,
+  MpkTaskError,
+  MpkTokenError
+)
 from Task import Task
 
 
@@ -15,6 +20,10 @@ def remove_comments(line):
       line, _ = line.split('#', maxsplit=1)
 
     return line.rstrip()
+
+
+def is_directive(word):
+    return re.match(r'\.[A-Za-z0-9-_]*$', word) is not None
 
 
 def is_date(word):
@@ -29,7 +38,9 @@ def is_duration(word):
     return re.match(r'\d+d$', word) is not None
 
 
-def split_to_lists(words):
+def split_to_lists(words, known_keywords):
+    directives = []
+    keywords = []
     idents = []
     durations = []
     dates = []
@@ -37,7 +48,15 @@ def split_to_lists(words):
     for word in words:
         handled = False
 
-        if is_date(word):
+        if is_directive(word) and not handled:
+            directives.append(word)
+            handled = True
+
+        if word in known_keywords:
+            keywords.append(word)
+            handled = True
+
+        if is_date(word) and not handled:
             dates.append(word)
             handled = True
 
@@ -52,7 +71,7 @@ def split_to_lists(words):
         if not handled:
             raise MpkTokenError('Unknown token ' + word)
 
-    return idents, durations, dates
+    return directives, keywords, idents, durations, dates
 
 
 def calculate_level(line, levels, level_tids, known_tids):
@@ -71,8 +90,8 @@ def calculate_level(line, levels, level_tids, known_tids):
     return level
 
 
-def build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows):
-    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
+def build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows):
+    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
     tid = task.tid
     tasks[tid] = task
 
@@ -83,13 +102,30 @@ def build_task(idents, durations, known_tids, tasks, project_first_date, level, 
     known_tids.append(tid)
 
 
+def process_directive(directives, keywords, nonwork_dows):
+    if len(directives) != 1:
+      raise MpkDirectiveError('No single directive')
+
+    directive = directives[0]
+
+    if directive == '.no-work':
+      for keyword in keywords:
+        if keyword == 'sunday':
+          nonwork_dows.append(6)
+        if keyword == 'saturday':
+          nonwork_dows.append(5)
+
+
 def read_tasks():
   project_first_date = date.today()
   known_tids = []
   tasks = {}
   level_tids = { 0: None }
   levels = [0]
-  non_dows = [5, 6]
+  nonwork_dows = []
+  known_keywords = [
+    'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
+  ]
 
   for line in fileinput.input([]):
     line = remove_comments(line)
@@ -103,16 +139,18 @@ def read_tasks():
         words = line.split()
 
         # divide into lists for ident, duration, dates
-        idents, durations, dates = split_to_lists(words)
+        directives, keywords, idents, durations, dates = split_to_lists(words, known_keywords)
 
-        if len(idents) > 0 or len(durations) > 0:
-          build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, non_dows)
+        if len(directives) > 0:
+          process_directive(directives, keywords, nonwork_dows)
         else:
-          if len(dates) == 1:
-            project_first_date = datetime.strptime(dates[0], "%Y-%m-%d").date()
+          if len(idents) > 0 or len(durations) > 0:
+            build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
           else:
-            raise MpkParseError(
-              'Unknown line', fileinput.filelineno(), line)
+            if len(dates) == 1:
+              project_first_date = datetime.strptime(dates[0], "%Y-%m-%d").date()
+            else:
+              raise MpkParseError('Unknown line', fileinput.filelineno(), line)
 
       except (MpkTokenError, MpkTaskError) as error:
         raise MpkParseError(

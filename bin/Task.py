@@ -34,12 +34,12 @@ def decode_duration(word):
     return duration
 
 
-def is_nonworkday(d, non_dows):
+def is_nonworkday(d, nonwork_dows):
     dow = d.weekday()
-    return dow in non_dows
+    return dow in nonwork_dows
 
 
-def calc_work_days(first_day, duration, non_dows, limit):
+def calc_work_days(first_day, duration, nonwork_dows, limit):
     day_count = duration.days
     one_day = timedelta(days = 1)
     last_day = first_day
@@ -51,7 +51,7 @@ def calc_work_days(first_day, duration, non_dows, limit):
         # while this new day is a non-workday
         # move to the next day (stop after 14)
         count = 0
-        while is_nonworkday(walk, non_dows):
+        while is_nonworkday(walk, nonwork_dows):
             walk = walk + one_day
             count += 1
             if count > limit:
@@ -65,7 +65,7 @@ def calc_work_days(first_day, duration, non_dows, limit):
 
 
 class Task:
-    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid, non_dows):
+    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid, nonwork_dows):
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
@@ -104,7 +104,7 @@ class Task:
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
-                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, non_dows, nonwork_day_limit)
+                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, nonwork_dows, nonwork_day_limit)
 
             except (MpkDurationError, MpkScheduleError) as error:
                 raise MpkTaskError(error.message)

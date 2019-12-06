@@ -1,4 +1,4 @@
 task	duration	predecessors	resources
 introduce (0)	1d	[]	[2019-12-06]
-present (0)	2d	[introduce]	[2019-12-07, 2019-12-09]
-close (0)	1d	[present, introduce]	[2019-12-10]
+present (0)	2d	[introduce]	[2019-12-07, 2019-12-08]
+close (0)	1d	[present, introduce]	[2019-12-09]

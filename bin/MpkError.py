@@ -2,12 +2,17 @@ class MpkError(Exception):
   pass
 
 
-class MpkTokenError(MpkError):
+class MpkDirectiveError(MpkError):
   def __init__(self, message):
     self.message = message
 
 
 class MpkTaskError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
+class MpkTokenError(MpkError):
   def __init__(self, message):
     self.message = message
 

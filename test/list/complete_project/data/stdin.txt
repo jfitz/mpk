@@ -4,8 +4,8 @@
 #.resource jennifer-jones jj
 #.resource sam-watson sw
 
-#.no-work sunday
-#.no-work saturday
+.no-work sunday
+.no-work saturday
 #.holiday 2019-12-25   #  Christmas Day
 
 analysis
