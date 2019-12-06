@@ -1,9 +1,9 @@
-Project first day: 2019-12-05
-Project last day: 2020-03-31
+Project first day: 2019-12-06
+Project last day: 2020-04-01
 
 task	start	end
-analysis	2019-12-05	2019-12-18
-design	2019-12-19	2020-01-15
-coding	2020-01-16	2020-02-26
-testing	2020-02-27	2020-03-25
-deploy	2020-03-26	2020-03-31
+analysis	2019-12-06	2019-12-19
+design	2019-12-20	2020-01-16
+coding	2020-01-17	2020-02-27
+testing	2020-02-28	2020-03-26
+deploy	2020-03-27	2020-04-01

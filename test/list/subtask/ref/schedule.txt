@@ -1,10 +1,10 @@
-Project first day: 2019-12-05
+Project first day: 2019-12-06
 Project last day: 2019-12-12
 
 task	start	end
-introduce	2019-12-05	2019-12-09
-announcements	2019-12-05	2019-12-05
-orientation	2019-12-06	2019-12-09
+introduce	2019-12-06	2019-12-09
+announcements	2019-12-06	2019-12-06
+orientation	2019-12-07	2019-12-09
 presentations	2019-12-10	2019-12-11
 classes	2019-12-10	2019-12-10
 sessions	2019-12-11	2019-12-11

@@ -14,11 +14,11 @@ def is_date(word):
 
 
 def is_ident(word):
-    return re.match(r'\w+$', word) is not None
+    return re.match(r'[A-Za-z]\w+$', word) is not None
 
 
 def is_duration(word):
-    return re.match(r'\d+[dw]$', word) is not None
+    return re.match(r'\d+d$', word) is not None
 
 
 def split_to_lists(words):
