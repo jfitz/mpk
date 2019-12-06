@@ -58,10 +58,7 @@ def read_tasks():
   for line in fileinput.input([]):
     # remove comments
     if '#' in line:
-      # I want this line, but Python 3.6.9 doesn't respect maxsplit
-      # line, _ = line.split('#', maxsplit=2)
-      parts = line.split('#')
-      line = parts[0]
+      line, _ = line.split('#', maxsplit=1)
     line = line.rstrip()
 
     if len(line) > 0:
