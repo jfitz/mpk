@@ -38,9 +38,9 @@ def is_duration(word):
     return re.match(r'\d+d$', word) is not None
 
 
-def split_to_lists(words, known_keywords):
+def split_to_lists(words, known_dow_keywords):
     directives = []
-    keywords = []
+    date_keywords = []
     idents = []
     durations = []
     dates = []
@@ -52,8 +52,8 @@ def split_to_lists(words, known_keywords):
             directives.append(word)
             handled = True
 
-        if word in known_keywords:
-            keywords.append(word)
+        if word in known_dow_keywords:
+            date_keywords.append(word)
             handled = True
 
         if is_date(word) and not handled:
@@ -71,7 +71,13 @@ def split_to_lists(words, known_keywords):
         if not handled:
             raise MpkTokenError('Unknown token ' + word)
 
-    return { 'directives': directives, 'keywords': keywords, 'identifiers': idents, 'durations': durations, 'dates': dates }
+    return {
+        'directives': directives,
+        'date_keywords': date_keywords,
+        'identifiers': idents,
+        'durations': durations,
+        'dates': dates
+    }
 
 
 def calculate_level(line, levels, level_tids, known_tids):
@@ -104,21 +110,25 @@ def build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid,
     known_tids.append(tid)
 
 
-def process_directive(tokens, nonwork_dows):
+def process_directive(tokens, known_dow_keywords, nonwork_dows):
     directives = tokens['directives']
-    keywords = tokens['keywords']
+    date_keywords = tokens['date_keywords']
 
     if len(directives) != 1:
       raise MpkDirectiveError('No single directive')
 
     directive = directives[0]
 
+    handled = False
+    
     if directive == '.no-work':
-      for keyword in keywords:
-        if keyword == 'sunday':
-          nonwork_dows.append(6)
-        if keyword == 'saturday':
-          nonwork_dows.append(5)
+      for keyword in date_keywords:
+        dow = known_dow_keywords[keyword]
+        nonwork_dows.append(dow)
+      handled = True
+
+    if not handled:
+      raise MpkDirectiveError('Unknown directive ' + directive)
 
 
 def read_tasks():
@@ -128,9 +138,15 @@ def read_tasks():
   level_tids = { 0: None }
   levels = [0]
   nonwork_dows = []
-  known_keywords = [
-    'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
-  ]
+  known_dow_keywords = {
+    'monday': 0,
+    'tuesday': 1,
+    'wednesday': 2,
+    'thursday': 3,
+    'friday':4,
+    'saturday': 5,
+    'sunday': 6
+  }
 
   for line in fileinput.input([]):
     line = remove_comments(line)
@@ -144,16 +160,16 @@ def read_tasks():
         words = line.split()
 
         # divide into lists for ident, duration, dates
-        tokens = split_to_lists(words, known_keywords)
+        tokens = split_to_lists(words, known_dow_keywords)
         directives = tokens['directives']
-        keywords = tokens['keywords']
+        date_keywords = tokens['date_keywords']
         idents = tokens['identifiers']
         durations = tokens['durations']
         dates = tokens['dates']
         
 
         if len(directives) > 0:
-          process_directive(tokens, nonwork_dows)
+          process_directive(tokens, known_dow_keywords, nonwork_dows)
         else:
           if len(idents) > 0 or len(durations) > 0:
             build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
