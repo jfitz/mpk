@@ -71,7 +71,7 @@ def split_to_lists(words, known_keywords):
         if not handled:
             raise MpkTokenError('Unknown token ' + word)
 
-    return directives, keywords, idents, durations, dates
+    return { 'directives': directives, 'keywords': keywords, 'identifiers': idents, 'durations': durations, 'dates': dates }
 
 
 def calculate_level(line, levels, level_tids, known_tids):
@@ -90,7 +90,9 @@ def calculate_level(line, levels, level_tids, known_tids):
     return level
 
 
-def build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows):
+def build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows):
+    idents = tokens['identifiers']
+    durations = tokens['durations']
     task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
     tid = task.tid
     tasks[tid] = task
@@ -102,7 +104,10 @@ def build_task(idents, durations, known_tids, tasks, project_first_date, level, 
     known_tids.append(tid)
 
 
-def process_directive(directives, keywords, nonwork_dows):
+def process_directive(tokens, nonwork_dows):
+    directives = tokens['directives']
+    keywords = tokens['keywords']
+
     if len(directives) != 1:
       raise MpkDirectiveError('No single directive')
 
@@ -139,13 +144,19 @@ def read_tasks():
         words = line.split()
 
         # divide into lists for ident, duration, dates
-        directives, keywords, idents, durations, dates = split_to_lists(words, known_keywords)
+        tokens = split_to_lists(words, known_keywords)
+        directives = tokens['directives']
+        keywords = tokens['keywords']
+        idents = tokens['identifiers']
+        durations = tokens['durations']
+        dates = tokens['dates']
+        
 
         if len(directives) > 0:
-          process_directive(directives, keywords, nonwork_dows)
+          process_directive(tokens, nonwork_dows)
         else:
           if len(idents) > 0 or len(durations) > 0:
-            build_task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
+            build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
           else:
             if len(dates) == 1:
               project_first_date = datetime.strptime(dates[0], "%Y-%m-%d").date()
