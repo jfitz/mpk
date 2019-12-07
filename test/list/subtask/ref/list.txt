@@ -1,8 +1,8 @@
 task	duration	predecessors	resources
 introduce (0)	[]
-announcements (2)	1d	[introduce]	[2019-12-06]
-orientation (2)	2d	[introduce]	[2019-12-07, 2019-12-08]
+announcements (2)	1d	[introduce]	[2019-12-07]
+orientation (2)	2d	[introduce]	[2019-12-08, 2019-12-09]
 presentations (0)	[introduce]
-classes (2)	1d	[presentations]	[2019-12-09]
-sessions (2)	1d	[presentations]	[2019-12-10]
-close (0)	1d	[presentations]	[2019-12-11]
+classes (2)	1d	[presentations]	[2019-12-10]
+sessions (2)	1d	[presentations]	[2019-12-11]
+close (0)	1d	[presentations]	[2019-12-12]
