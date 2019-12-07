@@ -65,7 +65,7 @@ def calc_work_days(first_day, duration, nonwork_dows, limit):
 
 
 class Task:
-    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid, nonwork_dows):
+    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid, nonwork_dows, ref_keywords):
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
@@ -83,6 +83,21 @@ class Task:
         self.duration = None
         self.level = level
 
+        # add '->' reference (most recent task at same level)
+        if '->' in ref_keywords:
+          i = len(known_tids) -1
+          found = False
+          while i > -1 and not found:
+            possible_tid = known_tids[i]
+            possible_task = tasks[possible_tid]
+            if possible_task.level == level:
+              self.predecessors.append(possible_tid)
+              found = True
+            i -= 1
+
+          if not found:
+            raise MpkRefError("Cannot find previous task for '->'")
+
         # must start no earlier than project start date
         possible_first_day = project_first_day_date
         # must start no earlier than predecessor end date + 1
@@ -98,9 +113,10 @@ class Task:
 
         self.first_day = possible_first_day
 
-        # decode task duration and compute last day and work days
+        # decode task duration and compute work days and last work day
         self.work_days = []
         self.last_day = self.first_day - one_day
+
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])

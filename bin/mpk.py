@@ -38,9 +38,10 @@ def is_duration(word):
     return re.match(r'\d+d$', word) is not None
 
 
-def split_to_lists(words, known_dow_keywords):
+def split_to_lists(words, known_dow_keywords, known_ref_keywords):
     directives = []
-    date_keywords = []
+    dow_keywords = []
+    ref_keywords = []
     idents = []
     durations = []
     dates = []
@@ -53,7 +54,11 @@ def split_to_lists(words, known_dow_keywords):
             handled = True
 
         if word in known_dow_keywords:
-            date_keywords.append(word)
+            dow_keywords.append(word)
+            handled = True
+
+        if word in known_ref_keywords:
+            ref_keywords.append(word)
             handled = True
 
         if is_date(word) and not handled:
@@ -73,7 +78,8 @@ def split_to_lists(words, known_dow_keywords):
 
     return {
         'directives': directives,
-        'date_keywords': date_keywords,
+        'dow_keywords': dow_keywords,
+        'ref_keywords': ref_keywords,
         'identifiers': idents,
         'durations': durations,
         'dates': dates
@@ -99,7 +105,8 @@ def calculate_level(line, levels, level_tids, known_tids):
 def build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows):
     idents = tokens['identifiers']
     durations = tokens['durations']
-    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
+    ref_keywords = tokens['ref_keywords']
+    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows, ref_keywords)
     tid = task.tid
     tasks[tid] = task
 
@@ -112,7 +119,7 @@ def build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid,
 
 def process_directive(tokens, known_dow_keywords, nonwork_dows):
     directives = tokens['directives']
-    date_keywords = tokens['date_keywords']
+    dow_keywords = tokens['dow_keywords']
 
     if len(directives) != 1:
       raise MpkDirectiveError('No single directive')
@@ -122,7 +129,7 @@ def process_directive(tokens, known_dow_keywords, nonwork_dows):
     handled = False
     
     if directive == '.no-work':
-      for keyword in date_keywords:
+      for keyword in dow_keywords:
         dow = known_dow_keywords[keyword]
         nonwork_dows.append(dow)
       handled = True
@@ -147,6 +154,7 @@ def read_tasks():
     'saturday': 5,
     'sunday': 6
   }
+  known_ref_keywords = [ '->' ]
 
   for line in fileinput.input([]):
     line = remove_comments(line)
@@ -160,9 +168,10 @@ def read_tasks():
         words = line.split()
 
         # divide into lists for ident, duration, dates
-        tokens = split_to_lists(words, known_dow_keywords)
+        tokens = split_to_lists(words, known_dow_keywords, known_ref_keywords)
         directives = tokens['directives']
-        date_keywords = tokens['date_keywords']
+        dow_keywords = tokens['dow_keywords']
+        ref_keywords = tokens['ref_keywords']
         idents = tokens['identifiers']
         durations = tokens['durations']
         dates = tokens['dates']

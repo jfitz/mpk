@@ -9,22 +9,22 @@
 #.holiday 2019-12-25   #  Christmas Day
 
 analysis
-  3d on-site-meetings # mike-smith -1
-  5d discussions-with-stakeholders on-site-meetings # ms -1
-  10d document-current-system discussions-with-stakeholders # ms -1
-  analysis-complete
-design analysis # -1
+  3d on-site-meetings # mike-smith
+  -> 5d discussions-with-stakeholders on-site-meetings # ms
+  -> 10d document-current-system discussions-with-stakeholders # ms
+  -> analysis-complete
+-> design
   design-database 10d # 2w jj
-  software-design 20d design-database # 4w -1 jj
-  interface-design 5d software-design # 1w -1 jj
-  create-design-specification 5d interface-design # 1w jj
-  design-complete
-development design # -1
+  -> software-design 20d # 4w jj
+  -> interface-design 5d # 1w jj
+  -> create-design-specification 5d # 1w jj
+  -> design-complete
+-> development
   develop-system-modules 40d # 8w sw
-  integrate-system-modules 20d develop-system-modules # 4w sw -1
-  perform-initial-testing 10d integrate-system-modules # 2w sw -1
-  development-complete perform-initial-testing
-testing development
+  -> integrate-system-modules 20d # 4w sw
+  -> perform-initial-testing 10d # 2w sw
+  -> development-complete
+-> testing
   perform-system-testing 15d # 3w ms
-  document-issues-found 5d perform-system-testing # 1w ms ->
-  correct-issues-found 20d document-issues-found # 4w ms ->
+  -> document-issues-found 5d # 1w ms
+  -> correct-issues-found 20d # 4w ms

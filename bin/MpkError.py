@@ -7,6 +7,11 @@ class MpkDirectiveError(MpkError):
     self.message = message
 
 
+class MpkRefError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
 class MpkTaskError(MpkError):
   def __init__(self, message):
     self.message = message
