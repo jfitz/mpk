@@ -1,0 +1,12 @@
+mpk
+
+This is an command-line tool to calculate project schedules. Define tasks, dependencies, and a start date, and mpk will calculate the start and end dates for each task.
+
+Features:
+- Define non-work days of the week (such as Sunday or Monday)
+- Tasks may have any number of predecessors
+- Milestones can be added as tasks without durations
+- Tasks may have sub-tasks
+- Output is a schedule, listing each task and its calculated start and end dates
+- Diagnosis output is available, showing detailed data for each task
+
