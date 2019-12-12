@@ -11,7 +11,7 @@ echo Start test $TESTNAME
 # create testbed
 echo Create testbed...
 mkdir "$TESTBED/$TESTNAME"
-cp bin/* "$TESTROOT/$TESTGROUP/$TESTNAME/data"/* "$TESTBED/$TESTNAME"
+cp src/* "$TESTROOT/$TESTGROUP/$TESTNAME/data"/* "$TESTBED/$TESTNAME"
 
 if [ -e "$TESTROOT/$TESTGROUP/options.txt" ]
 then
