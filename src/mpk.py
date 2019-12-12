@@ -103,24 +103,20 @@ def calculate_level(line, levels, level_tids, known_tids):
     return level
 
 
-def build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows):
+def build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows, nonwork_dates):
     idents = tokens['identifiers']
     durations = tokens['durations']
     ref_keywords = tokens['ref_keywords']
-    task = Task(idents, durations, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows, ref_keywords)
+    task = Task(idents, durations, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows, nonwork_dates, ref_keywords)
     tid = task.tid
     tasks[tid] = task
-
-    if parent_tid is not None:
-        parent_task = tasks[parent_tid]
-        parent_task.update(task)
-
     known_tids.append(tid)
 
 
-def process_directive(tokens, known_dow_keywords, nonwork_dows):
+def process_directive(tokens, known_dow_keywords, nonwork_dows, nonwork_dates):
     directives = tokens['directives']
     dow_keywords = tokens['dow_keywords']
+    dates = tokens['dates']
 
     if len(directives) != 1:
       raise MpkDirectiveError('No single directive')
@@ -133,6 +129,8 @@ def process_directive(tokens, known_dow_keywords, nonwork_dows):
       for keyword in dow_keywords:
         dow = known_dow_keywords[keyword]
         nonwork_dows.append(dow)
+      for d in dates:
+        nonwork_dates.append(d)
       handled = True
 
     if not handled:
@@ -141,11 +139,13 @@ def process_directive(tokens, known_dow_keywords, nonwork_dows):
 
 def read_tasks():
   project_first_date = date.today()
+
   known_tids = []
   tasks = {}
+
   level_tids = { 0: None }
   levels = [0]
-  nonwork_dows = []
+
   known_dow_keywords = {
     'monday': 0,
     'tuesday': 1,
@@ -156,6 +156,9 @@ def read_tasks():
     'sunday': 6
   }
   known_ref_keywords = [ '->' ]
+
+  nonwork_dows = []
+  nonwork_dates = []
 
   for line in fileinput.input([]):
     line = remove_comments(line)
@@ -179,10 +182,10 @@ def read_tasks():
         
 
         if len(directives) > 0:
-          process_directive(tokens, known_dow_keywords, nonwork_dows)
+          process_directive(tokens, known_dow_keywords, nonwork_dows, nonwork_dates)
         else:
           if len(idents) > 0 or len(durations) > 0:
-            build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows)
+            build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows, nonwork_dates)
           else:
             if len(dates) == 1:
               project_first_date = dates[0]

@@ -1,0 +1,24 @@
+Project first day: 2019-12-02
+Project last day: 2020-07-23
+
+task	start	end
+analysis	2019-12-02	2019-12-26
+  on-site-meetings	2019-12-02	2019-12-04
+  discussions-with-stakeholders	2019-12-05	2019-12-11
+  document-current-system	2019-12-12	2019-12-26
+  analysis-complete	2019-12-27	2019-12-26
+design	2019-12-27	2020-02-20
+  design-database	2019-12-27	2020-01-09
+  software-design	2020-01-10	2020-02-06
+  interface-design	2020-02-07	2020-02-13
+  create-design-specification	2020-02-14	2020-02-20
+  design-complete	2020-02-21	2020-02-20
+development	2020-02-21	2020-05-28
+  develop-system-modules	2020-02-21	2020-04-16
+  integrate-system-modules	2020-04-17	2020-05-14
+  perform-initial-testing	2020-05-15	2020-05-28
+  development-complete	2020-05-29	2020-05-28
+testing	2020-05-29	2020-07-23
+  perform-system-testing	2020-05-29	2020-06-18
+  document-issues-found	2020-06-19	2020-06-25
+  correct-issues-found	2020-06-26	2020-07-23

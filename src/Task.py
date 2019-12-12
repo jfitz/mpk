@@ -34,29 +34,36 @@ def decode_duration(word):
     return duration
 
 
-def is_nonworkday(d, nonwork_dows):
+def is_nonworkday(d, nonwork_dows, nonwork_dates):
     dow = d.weekday()
-    return dow in nonwork_dows
+    return dow in nonwork_dows or d in nonwork_dates
 
 
-def calc_work_days(first_day, duration, nonwork_dows, limit):
+def find_next_work_day(walk, nonwork_dows, nonwork_dates, limit):
+    one_day = timedelta(days = 1)
+    count = 0
+
+    while is_nonworkday(walk, nonwork_dows, nonwork_dates):
+        walk = walk + one_day
+        count += 1
+        # don't skip more than the limit
+        if count > limit:
+            raise MpkScheduleError(
+                'More than ' + str(limit) + ' non-workdays')
+
+    return walk
+
+
+def calc_work_days(first_day, duration, nonwork_dows, nonwork_dates, limit):
     day_count = duration.days
     one_day = timedelta(days = 1)
-    last_day = first_day
+    last_day = first_day - one_day
     walk = first_day
     work_days = []
     for _ in range(0, day_count):
+        walk = find_next_work_day(walk, nonwork_dows, nonwork_dates, limit)
         work_days.append(walk)
         walk = walk + one_day
-        # while this new day is a non-workday
-        # move to the next day (stop after 14)
-        count = 0
-        while is_nonworkday(walk, nonwork_dows):
-            walk = walk + one_day
-            count += 1
-            if count > limit:
-                raise MpkScheduleError(
-                    'More than ' + str(limit) + ' non-workdays')
     
     if len(work_days) > 0:
         last_day = work_days[-1]
@@ -65,7 +72,7 @@ def calc_work_days(first_day, duration, nonwork_dows, limit):
 
 
 class Task:
-    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, dates, level, parent_tid, nonwork_dows, ref_keywords):
+    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, dates, level, parent_tid, nonwork_dows, nonwork_dates, ref_keywords):
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
@@ -82,6 +89,7 @@ class Task:
         self.tid = new_idents[0]
         self.predecessors = old_idents
         self.dates = dates
+        self.parent_tid = parent_tid
         if parent_tid is not None:
             self.predecessors.append(parent_tid)
         self.duration = None
@@ -119,7 +127,9 @@ class Task:
             if d > possible_first_day:
                 possible_first_day = d
 
-        self.first_day = possible_first_day
+        self.first_day = find_next_work_day(possible_first_day,
+                                            nonwork_dows, nonwork_dates,
+                                            nonwork_day_limit)
 
         # decode task duration and compute work days and last work day
         self.work_days = []
@@ -128,20 +138,27 @@ class Task:
         if len(durations) == 1:
             try:
                 self.duration = decode_duration(durations[0])
-                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, nonwork_dows, nonwork_day_limit)
+                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, nonwork_dows, nonwork_dates, nonwork_day_limit)
 
             except (MpkDurationError, MpkScheduleError) as error:
                 raise MpkTaskError(error.message)
 
+        while parent_tid is not None:
+            parent_task = tasks[parent_tid]
+            parent_task.update_last_day(self.last_day)
+            parent_tid = parent_task.parent_tid
 
-    def update(self, child_task):
-        if child_task.last_day > self.last_day:
-            self.last_day = child_task.last_day
+
+    def update_last_day(self, last_day):
+        if last_day > self.last_day:
+            self.last_day = last_day
 
 
     def format_list(self):
         s = self.tid
 
+        if self.parent_tid is not None:
+            s += ' P[' + str(self.parent_tid) + ']'
         s += ' (' + str(self.level) + ')'
 
         if self.duration is not None:

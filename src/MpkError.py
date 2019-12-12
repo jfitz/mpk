@@ -2,22 +2,17 @@ class MpkError(Exception):
   pass
 
 
+class MpkDateError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
 class MpkDirectiveError(MpkError):
   def __init__(self, message):
     self.message = message
 
 
-class MpkRefError(MpkError):
-  def __init__(self, message):
-    self.message = message
-
-
-class MpkTaskError(MpkError):
-  def __init__(self, message):
-    self.message = message
-
-
-class MpkTokenError(MpkError):
+class MpkDurationError(MpkError):
   def __init__(self, message):
     self.message = message
 
@@ -29,11 +24,21 @@ class MpkParseError(MpkError):
     self.line = line
 
 
-class MpkDurationError(MpkError):
+class MpkRefError(MpkError):
   def __init__(self, message):
     self.message = message
 
 
 class MpkScheduleError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
+class MpkTaskError(MpkError):
+  def __init__(self, message):
+    self.message = message
+
+
+class MpkTokenError(MpkError):
   def __init__(self, message):
     self.message = message
