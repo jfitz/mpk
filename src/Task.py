@@ -81,6 +81,7 @@ class Task:
         # assign values
         self.tid = new_idents[0]
         self.predecessors = old_idents
+        self.dates = dates
         if parent_tid is not None:
             self.predecessors.append(parent_tid)
         self.duration = None
@@ -146,7 +147,12 @@ class Task:
         if self.duration is not None:
             s += '\t' + str(self.duration.days) + 'd'
 
-        s += '\t' + '[' + ', '.join(self.predecessors) + ']'
+        preds = self.predecessors.copy()
+        for d in self.dates:
+            preds.append(str(d))
+        predecessors = ', '.join(preds)
+
+        s += '\t' + '[' + predecessors + ']'
 
         if len(self.work_days) > 0:
             strings = []
