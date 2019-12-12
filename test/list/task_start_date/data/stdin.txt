@@ -1,0 +1,30 @@
+# sample project file
+2019-12-01
+#.resource mike-smith ms
+#.resource jennifer-jones jj
+#.resource sam-watson sw
+
+.no-work sunday
+.no-work saturday
+#.holiday 2019-12-25   #  Christmas Day
+
+analysis
+  3d on-site-meetings # mike-smith
+  -> 5d discussions-with-stakeholders on-site-meetings # ms
+  -> 10d document-current-system discussions-with-stakeholders # ms
+  -> analysis-complete
+-> design
+  design-database 10d # 2w jj
+  -> software-design 20d 2020-01-15 # 4w jj
+  -> interface-design 5d # 1w jj
+  -> create-design-specification 5d # 1w jj
+  -> design-complete
+-> development
+  develop-system-modules 40d # 8w sw
+  -> integrate-system-modules 20d # 4w sw
+  -> perform-initial-testing 10d # 2w sw
+  -> development-complete
+-> testing
+  perform-system-testing 15d # 3w ms
+  -> document-issues-found 5d # 1w ms
+  -> correct-issues-found 20d # 4w ms

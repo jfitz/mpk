@@ -65,7 +65,7 @@ def calc_work_days(first_day, duration, nonwork_dows, limit):
 
 
 class Task:
-    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, level, parent_tid, nonwork_dows, ref_keywords):
+    def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, dates, level, parent_tid, nonwork_dows, ref_keywords):
         new_idents, old_idents = split_idents(idents, known_tids)
 
         # validation
@@ -74,6 +74,9 @@ class Task:
 
         if len(durations) > 1:
             raise MpkTaskError('More than one duration')
+
+        if len(dates) > 1:
+            raise MpkTaskError('More than one task date')
 
         # assign values
         self.tid = new_idents[0]
@@ -110,6 +113,10 @@ class Task:
             task_possible_first_day = task.last_day + one_day
             if task_possible_first_day > possible_first_day:
                 possible_first_day = task_possible_first_day
+
+        for d in dates:
+            if d > possible_first_day:
+                possible_first_day = d
 
         self.first_day = possible_first_day
 

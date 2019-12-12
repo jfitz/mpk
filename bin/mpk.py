@@ -62,7 +62,8 @@ def split_to_lists(words, known_dow_keywords, known_ref_keywords):
             handled = True
 
         if is_date(word) and not handled:
-            dates.append(word)
+            d = datetime.strptime(word, "%Y-%m-%d").date()
+            dates.append(d)
             handled = True
 
         if is_duration(word) and not handled:
@@ -102,11 +103,11 @@ def calculate_level(line, levels, level_tids, known_tids):
     return level
 
 
-def build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows):
+def build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows):
     idents = tokens['identifiers']
     durations = tokens['durations']
     ref_keywords = tokens['ref_keywords']
-    task = Task(idents, durations, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows, ref_keywords)
+    task = Task(idents, durations, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows, ref_keywords)
     tid = task.tid
     tasks[tid] = task
 
@@ -181,10 +182,10 @@ def read_tasks():
           process_directive(tokens, known_dow_keywords, nonwork_dows)
         else:
           if len(idents) > 0 or len(durations) > 0:
-            build_task(tokens, known_tids, tasks, project_first_date, level, parent_tid, nonwork_dows)
+            build_task(tokens, known_tids, tasks, project_first_date, dates, level, parent_tid, nonwork_dows)
           else:
             if len(dates) == 1:
-              project_first_date = datetime.strptime(dates[0], "%Y-%m-%d").date()
+              project_first_date = dates[0]
             else:
               raise MpkParseError('Unknown line', fileinput.filelineno(), line)
 
