@@ -1,0 +1,103 @@
+Project first day: 2019-09-30
+Project last day: 2020-08-24
+
+task	start	end
+Initiating	2019-09-30	2019-10-23
+ Define-the-problem	2019-09-30	2019-10-04
+ Confirm-Project-Feasibility	2019-10-05	2019-10-16
+  Identify-Intangible-cost-benefits	2019-10-05	2019-10-07
+  Estimate-tangible-benefits	2019-10-08	2019-10-09
+  Calculate-cost-benefits	2019-10-10	2019-10-11
+  Organizational-feasability	2019-10-12	2019-10-14
+  Technical-feasability	2019-10-15	2019-10-15
+  Evaluate-resource-availability	2019-10-16	2019-10-16
+ Develop-project-charter	2019-10-17	2019-10-23
+Project-Planning	2019-10-24	2019-12-04
+ Perform-IOSS-Obervations	2019-10-24	2019-10-30
+ Write-problem-description	2019-10-31	2019-11-06
+ Identify-IOSS-benefits	2019-11-07	2019-11-13
+ Identify-system-capacities	2019-11-14	2019-11-20
+ Develop-context-diagram	2019-11-21	2019-11-27
+ Identify-specific-requirements	2019-11-28	2019-12-04
+Project-Scope-Management	2019-12-05	2019-12-15
+ Plan-scope-management	2019-12-05	2019-12-06
+ Collect-Requirements	2019-12-07	2019-12-09
+ Define-Scope	2019-12-10	2019-12-11
+ Create-WBS	2019-12-12	2019-12-13
+ Validate-scope	2019-12-14	2019-12-14
+ Control-scope	2019-12-15	2019-12-15
+Produce-Project-Schedule	2019-12-16	2019-12-27
+ Plan-schedule-management	2019-12-16	2019-12-17
+ Define-activities	2019-12-18	2019-12-19
+ Determine-task-dependencies	2019-12-20	2019-12-23
+ Estimate-activities-duration	2019-12-24	2019-12-25
+ Develop-Dependencies-Diagram	2019-12-26	2019-12-26
+ Control-Schedule	2019-12-27	2019-12-27
+Project-cost-management	2019-12-28	2020-01-08
+ Plan-cost-Management	2019-12-28	2019-12-31
+ Estimate-Costs	2020-01-01	2020-01-03
+ Determine-budget	2020-01-04	2020-01-07
+ Control-costs	2020-01-08	2020-01-08
+Confirm-Project-Feasibility-b	2020-01-09	2020-01-19
+ Identify-Intangible-cost-benefits-b	2020-01-09	2020-01-10
+ Estimate-tangible-benefits-b	2020-01-11	2020-01-13
+ Calculate-cost-benefits-b	2020-01-14	2020-01-15
+ Organizational-feasability-b	2020-01-16	2020-01-17
+ Technical-feasability-b	2020-01-18	2020-01-18
+ Evaluate-resource-availability-b	2020-01-19	2020-01-19
+Project-quality-Management	2020-01-20	2020-01-30
+ Plan-quality-management	2020-01-20	2020-01-24
+ Manage-quality	2020-01-25	2020-01-29
+ Control-quality	2020-01-30	2020-01-30
+Staff-the-project	2020-01-31	2020-02-12
+ Plan-resource-management	2020-01-31	2020-02-03
+ Estimate-activity-resources	2020-02-04	2020-02-05
+ Procure-resources	2020-02-06	2020-02-07
+ Develop-team	2020-02-08	2020-02-10
+ Manage-team	2020-02-11	2020-02-11
+ Control-resources	2020-02-12	2020-02-12
+Project-communication-management	2020-02-13	2020-02-26
+ Plan-communications-management	2020-02-13	2020-02-19
+ Manage-communication	2020-02-20	2020-02-25
+ Monitor-communication	2020-02-26	2020-02-26
+Project-risk-management	2020-02-27	2020-03-25
+ Plan-Risk-Management	2020-02-27	2020-03-04
+ Identify-Risks	2020-03-05	2020-03-09
+ Perform-Qualitative-Risk-Analysis	2020-03-10	2020-03-11
+ Perform-Quantitative-Risk-analysis	2020-03-12	2020-03-16
+ Plan-Risk-Responses	2020-03-17	2020-03-19
+ Implement-Risk-responses	2020-03-20	2020-03-24
+ Monitor-Risks	2020-03-25	2020-03-25
+Plan-Stakeholders	2020-03-26	2020-04-08
+ Identify-Stakeholders	2020-03-26	2020-03-30
+ Plan-stakeholder-engagement	2020-03-31	2020-04-02
+ Manage-stakeholder-engagement	2020-04-03	2020-04-07
+ Monitor-stakeholder-engagement	2020-04-08	2020-04-08
+Project-Execution-Management	2020-04-09	2020-07-27
+ Evaluate-apps-development	2020-04-09	2020-04-15
+ Select-the-APP-tool	2020-04-16	2020-04-22
+ Design-Pilot-Pal-APP-for-IOS	2020-04-23	2020-05-20
+  Create-APP-Prototype	2020-04-23	2020-04-29
+  Review-Prototype-functionalities-with-stakeholders	2020-04-30	2020-05-06
+  Update-the-Prototype	2020-05-07	2020-05-13
+  Prototype-Approval	2020-05-14	2020-05-20
+ Development-the-Pilot-Pal-APP-for-IOS	2020-05-21	2020-07-13
+  Define-the-app-components	2020-05-21	2020-05-27
+  Create-component-code	2020-05-28	2020-06-10
+  Run-unit-testing	2020-06-11	2020-06-19
+  Integrate-the-APP-components	2020-06-20	2020-06-26
+  System-testing-QA	2020-06-27	2020-07-06
+  User-acceptance-testing	2020-07-07	2020-07-13
+ Implementation	2020-07-14	2020-07-27
+  Review-PSU-electronic-for-apps-policies	2020-07-14	2020-07-15
+  Request-access-to-PSU-mobile-security-system	2020-07-16	2020-07-20
+  Publish-the-APP-pilot	2020-07-21	2020-07-27
+ Maintenance	2020-07-28	2020-08-10
+  Coordinate-with-PSU-IT-for-shared-resources	2020-07-28	2020-07-30
+  Generate-APP-statistical-reports	2020-07-31	2020-08-06
+  Monitoring-the-Pilot-APP-on-IOS-funcionality	2020-08-07	2020-08-10
+Project-Close	2020-07-28	2020-08-24
+ Store-project-logs	2020-07-28	2020-08-03
+ Collect-Project-feedback-from-stakeholders	2020-08-04	2020-08-10
+ Develop-APP-Users-survey	2020-08-11	2020-08-17
+ Conduct-kickoff-meeting	2020-08-18	2020-08-24

@@ -1,0 +1,102 @@
+2019-09-30
+.no-work sunday
+.no-work saturday
+Initiating
+ Define-the-problem 5d
+ -> Confirm-Project-Feasibility
+  Identify-Intangible-cost-benefits 2d
+  -> Estimate-tangible-benefits 2d
+  -> Calculate-cost-benefits 2d
+  -> Organizational-feasability 2d
+  -> Technical-feasability 1d
+  -> Evaluate-resource-availability 1d
+ -> Develop-project-charter 5d
+-> Project-Planning
+ Perform-IOSS-Obervations 5d
+ -> Write-problem-description 5d
+ -> Identify-IOSS-benefits 5d
+ -> Identify-system-capacities 5d
+ -> Develop-context-diagram 5d
+ -> Identify-specific-requirements 5d
+-> Project-Scope-Management
+ Plan-scope-management 2d
+ -> Collect-Requirements 2d
+ -> Define-Scope 2d
+ -> Create-WBS 2d
+ -> Validate-scope 1d
+ -> Control-scope 1d
+-> Produce-Project-Schedule
+ Plan-schedule-management 2d
+ -> Define-activities 2d
+ -> Determine-task-dependencies 2d
+ -> Estimate-activities-duration 2d
+ -> Develop-Dependencies-Diagram 1d
+ -> Control-Schedule 1d
+-> Project-cost-management
+ Plan-cost-Management 3d
+ -> Estimate-Costs 3d
+ -> Determine-budget 3d
+ -> Control-costs 1d
+-> Confirm-Project-Feasibility-b
+ Identify-Intangible-cost-benefits-b 2d
+ -> Estimate-tangible-benefits-b 2d
+ -> Calculate-cost-benefits-b 2d
+ -> Organizational-feasability-b 2d
+ -> Technical-feasability-b 1d
+ -> Evaluate-resource-availability-b 1d
+-> Project-quality-Management
+ Plan-quality-management 5d
+ -> Manage-quality 4d
+ -> Control-quality 1d
+-> Staff-the-project
+ Plan-resource-management 2d
+ -> Estimate-activity-resources 2d
+ -> Procure-resources 2d
+ -> Develop-team 2d
+ -> Manage-team 1d
+ -> Control-resources 1d
+-> Project-communication-management
+ Plan-communications-management 5d
+ -> Manage-communication 4d
+ -> Monitor-communication 1d
+-> Project-risk-management
+ Plan-Risk-Management 5d
+ -> Identify-Risks 3d
+ -> Perform-Qualitative-Risk-Analysis 2d
+ -> Perform-Quantitative-Risk-analysis 3d
+ -> Plan-Risk-Responses 3d
+ -> Implement-Risk-responses 3d
+ -> Monitor-Risks 1d
+-> Plan-Stakeholders
+ Identify-Stakeholders 3d
+ -> Plan-stakeholder-engagement 3d
+ -> Manage-stakeholder-engagement 3d
+ -> Monitor-stakeholder-engagement 1d
+-> Project-Execution-Management
+ Evaluate-apps-development 5d
+ -> Select-the-APP-tool 5d
+ -> Design-Pilot-Pal-APP-for-IOS
+  Create-APP-Prototype 5d
+  -> Review-Prototype-functionalities-with-stakeholders 5d
+  -> Update-the-Prototype 5d
+  -> Prototype-Approval 5d
+ -> Development-the-Pilot-Pal-APP-for-IOS
+  Define-the-app-components 5d
+  -> Create-component-code 10d
+  -> Run-unit-testing 7d
+  -> Integrate-the-APP-components 6d
+  -> System-testing-QA 7d
+  -> User-acceptance-testing 5d
+ -> Implementation
+  Review-PSU-electronic-for-apps-policies 2d
+  -> Request-access-to-PSU-mobile-security-system 3d
+  -> Publish-the-APP-pilot 5d
+ -> Maintenance
+  Coordinate-with-PSU-IT-for-shared-resources 3d
+  -> Generate-APP-statistical-reports 5d
+  -> Monitoring-the-Pilot-APP-on-IOS-funcionality 2d
+-> Project-Close
+ Store-project-logs 5d
+ -> Collect-Project-feedback-from-stakeholders 5d
+ -> Develop-APP-Users-survey 5d
+ -> Conduct-kickoff-meeting 5d

@@ -1,0 +1,99 @@
+Initiating	20-days?	Mon-09/30/19	Fri-10/25/19		
+Define-the-problem	5-days	Mon-09/30/19	Fri-10/04/19		"Alkhalil,Tacco,Oluwole,Fitz"
+Confirm-Project-Feasibility-(Good-to-have-)	10-days?	Mon-10/07/19	Fri-10/18/19	2	
+Identify-Intangible-cost/benefits	2-days	Mon-10/07/19	Tue-10/08/19	2	"Alkhalil,Tacco,Oluwole,Fitz"
+Estimate-tangible-benefits	2-days	Wed-10/09/19	Thu-10/10/19	4	"Alkhalil,Tacco"
+Calculate-cost/benefits	2-days	Fri-10/11/19	Mon-10/14/19	5	"Alkhalil,Tacco"
+Organizational-feasability	2-days	Tue-10/15/19	Wed-10/16/19	6	"Alkhalil,Tacco"
+Technical-feasability	1-day?	Thu-10/17/19	Thu-10/17/19	7	"Alkhalil,Tacco"
+Evaluate-resource-availability	1-day?	Fri-10/18/19	Fri-10/18/19	8	Tacco
+Develop-project-charter	5-days	Mon-10/21/19	Fri-10/25/19	3	"Alkhalil,Tacco,Oluwole,Fitz"
+Project-Planning	30-days	Mon-10/28/19	Fri-12/06/19	"1,10"	
+Perform-IOSS-Obervations-/-International-Students-Feedback	5-days	Mon-10/28/19	Fri-11/01/19		"Alkhalil,Fitz"
+Write-problem-description	5-days	Mon-11/04/19	Fri-11/08/19	12	"Alkhalil,Tacco,Oluwole,Fitz"
+Identify-IOSS-benefits	5-days	Mon-11/11/19	Fri-11/15/19	13	Alkhalil
+Identify-system-capacities	5-days	Mon-11/18/19	Fri-11/22/19	14	Tacco
+Develop-context-diagram*	5-days	Mon-11/25/19	Fri-11/29/19	15	Fitz
+Identify-specific-requirements-according-to-PSU-Policies	5-days	Mon-12/02/19	Fri-12/06/19	16	Alkhalil
+Project-Scope-Management	10-days?	Mon-12/09/19	Fri-12/20/19	11	
+Plan-scope-management	2-days	Mon-12/09/19	Tue-12/10/19	17	"Alkhalil,Tacco,Oluwole,Fitz"
+Collect-Requirements	2-days	Wed-12/11/19	Thu-12/12/19	19	"Alkhalil,Fitz"
+Define-Scope	2-days	Fri-12/13/19	Mon-12/16/19	20	Tacco
+Create-WBS	2-days	Tue-12/17/19	Wed-12/18/19	21	"Alkhalil,Fitz"
+Validate-scope	1-day?	Thu-12/19/19	Thu-12/19/19	22	"Alkhalil,Fitz"
+Control-scope	1-day?	Fri-12/20/19	Fri-12/20/19	23	Tacco
+Produce-Project-Schedule	10-days?	Mon-12/23/19	Fri-01/03/20	18	
+Plan-schedule-management	2-days	Mon-12/23/19	Tue-12/24/19	23	"Alkhalil,Tacco,Oluwole,Fitz"
+Define-activities	2-days	Wed-12/25/19	Thu-12/26/19	26	Fitz
+Determine-task-dependencies---Sequence	2-days	Fri-12/27/19	Mon-12/30/19	27	Oluwole
+Estimate-activities-duration	2-days	Tue-12/31/19	Wed-01/01/20	28	Fitz
+Develop-Dependencies-Diagram-(critical-path)	1-day?	Thu-01/02/20	Thu-01/02/20	29	Fitz
+Control-Schedule	1-day?	Fri-01/03/20	Fri-01/03/20	30	Tacco
+Project-cost-management	10-days?	Mon-01/06/20	Fri-01/17/20	25	
+Plan-cost-Management	3-days	Mon-01/06/20	Wed-01/08/20	30	"Alkhalil,Tacco,Oluwole,Fitz"
+Estimate-Costs-	3-days	Thu-01/09/20	Mon-01/13/20	33	"Alkhalil,Tacco,Oluwole,Fitz"
+Determine-budget	3-days	Tue-01/14/20	Thu-01/16/20	34	"Alkhalil,Tacco,Oluwole,Fitz"
+Control-costs	1-day?	Fri-01/17/20	Fri-01/17/20	35	Tacco
+Confirm-Project-Feasibility-(Good-to-have-)	10-days?	Mon-01/20/20	Fri-01/31/20	32	
+Identify-Intangible-cost/benefits	2-days	Mon-01/20/20	Tue-01/21/20	36	"Alkhalil,Tacco,Oluwole,Fitz"
+Estimate-tangible-benefits	2-days	Wed-01/22/20	Thu-01/23/20	38	"Alkhalil,Tacco"
+Calculate-cost/benefits	2-days	Fri-01/24/20	Mon-01/27/20	39	"Alkhalil,Tacco"
+Organizational-feasability	2-days	Tue-01/28/20	Wed-01/29/20	40	"Alkhalil,Tacco"
+Technical-feasability	1-day?	Thu-01/30/20	Thu-01/30/20	41	"Alkhalil,Tacco"
+Evaluate-resource-availability	1-day?	Fri-01/31/20	Fri-01/31/20	42	Tacco
+Project-quality-Management	10-days?	Mon-02/03/20	Fri-02/14/20	37	
+Plan-quality-management	5-days	Mon-02/03/20	Fri-02/07/20	43	"Alkhalil,Tacco,Oluwole,Fitz"
+Manage-quality	4-days	Mon-02/10/20	Thu-02/13/20	45	Fitz
+Control-quality	1-day?	Fri-02/14/20	Fri-02/14/20	46	Tacco
+Staff-the-project	10-days?	Mon-02/17/20	Fri-02/28/20	44	
+Plan-resource-management	2-days	Mon-02/17/20	Tue-02/18/20	47	"Alkhalil,Tacco,Oluwole,Fitz"
+Estimate-activity-resources	2-days	Wed-02/19/20	Thu-02/20/20	49	"Alkhalil,Tacco"
+Procure-(Acquire)resources-(Project-Team)	2-days	Fri-02/21/20	Mon-02/24/20	50	Tacco
+Develop-team	2-days	Tue-02/25/20	Wed-02/26/20	51	"Alkhalil,Tacco,Oluwole,Fitz"
+Manage-team	1-day?	Thu-02/27/20	Thu-02/27/20	52	Tacco
+Control-resources	1-day?	Fri-02/28/20	Fri-02/28/20	53	Tacco
+Project-communication-management	10-days?	Mon-03/02/20	Fri-03/13/20	48	
+Plan-communications-management	5-days	Mon-03/02/20	Fri-03/06/20	54	"Alkhalil,Tacco,Oluwole,Fitz"
+Manage-communication	4-days	Mon-03/09/20	Thu-03/12/20	56	Fitz
+Monitor-communication	1-day?	Fri-03/13/20	Fri-03/13/20	57	Tacco
+Project-risk-management	20-days?	Mon-03/16/20	Fri-04/10/20	55	
+Plan-Risk-Management	5-days	Mon-03/16/20	Fri-03/20/20	58	"Alkhalil,Tacco,Oluwole,Fitz"
+Identify-Risks	3-days	Mon-03/23/20	Wed-03/25/20	60	Fitz
+Perform-Qualitative-Risk-Analysis	2-days	Thu-03/26/20	Fri-03/27/20	61	Fitz
+Perform-Quantitative-Risk-analysis	3-days	Mon-03/30/20	Wed-04/01/20	62	Fitz
+Plan-Risk-Responses	3-days	Thu-04/02/20	Mon-04/06/20	63	Fitz
+Implement-Risk-responses	3-days	Tue-04/07/20	Thu-04/09/20	64	Fitz
+Monitor-Risks	1-day?	Fri-04/10/20	Fri-04/10/20	65	Tacco
+Plan-Stakeholders	10-days?	Mon-04/13/20	Fri-04/24/20	59	
+Identify-Stakeholders	3-days	Mon-04/13/20	Wed-04/15/20	66	"Alkhalil,Tacco,Oluwole,Fitz"
+Plan-stakeholder-engagement	3-days	Thu-04/16/20	Mon-04/20/20	68	Alkhalil
+Manage-stakeholder-engagement	3-days	Tue-04/21/20	Thu-04/23/20	69	Alkhalil
+Monitor-stakeholder-engagement	1-day?	Fri-04/24/20	Fri-04/24/20	70	Tacco
+Project-Execution-Management	90-days	Mon-04/27/20	Fri-08/28/20	67	
+Evaluate-apps-development-tools-	5-days	Mon-04/27/20	Fri-05/01/20	71	"Alkhalil,Tacco,Oluwole,Fitz"
+Select-the-APP-tool	5-days	Mon-05/04/20	Fri-05/08/20	73	"Fitz,Oluwole"
+Design-Pilot-Pal-APP-for-IOS	20-days	Mon-05/11/20	Fri-06/05/20	74	
+Create-APP-Prototype	5-days	Mon-05/11/20	Fri-05/15/20	74	"Fitz,Oluwole"
+Review-Prototype-functionalities-with-stakeholders	5-days	Mon-05/18/20	Fri-05/22/20	76	"Fitz,Oluwole"
+Update-the-Prototype	5-days	Mon-05/25/20	Fri-05/29/20	77	"Fitz,Oluwole"
+Prototype-Approval	5-days	Mon-06/01/20	Fri-06/05/20	78	Tacco
+Development-the-Pilot-Pal-APP-for-IOS	40-days	Mon-06/08/20	Fri-07/31/20	75	
+Define-the-app-components-	5-days	Mon-06/08/20	Fri-06/12/20	75	"Fitz,Oluwole"
+Create-component-code	10-days	Mon-06/15/20	Fri-06/26/20	81	"Fitz,Oluwole"
+Run-unit-testing	7-days	Mon-06/29/20	Tue-07/07/20	82	"Fitz,Oluwole"
+Integrate-the-APP-components	6-days	Wed-07/08/20	Wed-07/15/20	83	"Fitz,Oluwole"
+System-testing-QA	7-days	Thu-07/16/20	Fri-07/24/20	84	"Fitz,Oluwole"
+User-acceptance-testing	5-days	Mon-07/27/20	Fri-07/31/20	85	"Fitz,Oluwole"
+Implementation	10-days	Mon-08/03/20	Fri-08/14/20	80	
+Review-PSU-electronic-for-apps-policies	2-days	Mon-08/03/20	Tue-08/04/20	81	"Alkhalil,Tacco,Oluwole,Fitz"
+Request-access-to-PSU-mobile-security-system	3-days	Wed-08/05/20	Fri-08/07/20	88	"Fitz,Oluwole"
+Publish-the-APP-pilot	5-days	Mon-08/10/20	Fri-08/14/20	89	"Fitz,Oluwole"
+Maintenance	10-days	Mon-08/17/20	Fri-08/28/20		
+Coordinate-with-PSU-IT-for-shared-resources	3-days	Mon-08/17/20	Wed-08/19/20	90	"Fitz,Oluwole"
+Generate-APP-statistical-reports	5-days	Thu-08/20/20	Wed-08/26/20	92	"Fitz,Oluwole"
+Monitoring-the-Pilot-APP-on-IOS-funcionality	2-days	Thu-08/27/20	Fri-08/28/20	93	Oluwole
+Project-Close	20-days	Mon-08/31/20	Fri-09/25/20	"72,11,18,25,32,37,44,48,55,59,67"	
+Store-project-logs	5-days	Mon-08/31/20	Fri-09/04/20	94	"Fitz,Oluwole"
+Collect-Project-feedback-from-stakeholders	5-days	Mon-09/07/20	Fri-09/11/20	96	Alkhalil
+Develop-APP-User's-survey	5-days	Mon-09/14/20	Fri-09/18/20	97	Alkhalil
+Conduct-kickoff-meeting	5-days	Mon-09/21/20	Fri-09/25/20	98	"Alkhalil,Tacco,Oluwole,Fitz"
