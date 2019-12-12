@@ -1,0 +1,263 @@
+mpk
+===
+
+Overview
+--------
+
+MPK is a calculator for project schedules.
+
+Much like Microsoft Project, it lets you define project tasks, durations, and dependencies (predecessors).
+And much like Microsoft Project, it will calculate the start and end dates for each task.
+
+Unlike Microsoft Project, MPK has no GUI, and has limited functions.
+MPK reads data about your project from a text file and produces text output.
+
+The name 'MPK' comes from Stevens Institute of Technology (now Stevens University) and the three-building complex which held (when I attended) the offices and classrooms for the Management Science department.
+
+Overview
+--------
+
+MPK allows for the definition of simple projects.
+Projects consist of tasks, which may be regular tasks, miletones, or task headers.
+A regular task has a name and a duration.
+A milestone task has a name but no duration.
+A header task has a name and no duration, and also has subtasks.
+
+Subtasks are tasks; they are indented in the input file.
+
+Input files
+-----------
+
+An input file is a plain text file.
+
+It may contain comments, marked with '#' characters.
+Comments may begin at any point in a line.
+
+The format of the file is flexible.
+Each task must be specified on a separate line.
+The tokens for a task (name, duration, predecessors) may occur in any sequence.
+
+A simple input file
+~~~~~~~~~~~~~~~~~~~
+
+The simplest input file to MPK (aside from an empty file) is:
+
+    task-name 1d
+
+which defines a single task with a duration of one day.
+
+File format
+-----------
+
+Project information
+~~~~~~~~~~~~~~~~~~~
+
+Project information must appear before any tasks.
+
+Project information includes the project start date and days of the week which are not worked.
+
+Tasks
+~~~~~
+
+After project information, tasks are listed in the file.
+
+Each task must have a unique name.
+Duplicate names are not allowed.
+Names may contain letters, digits, and hyphens.
+Names must begin with a letter.
+Sample names are: 'initiate', 'first-phase', and 'user-acceptance-tests'.
+
+A task may have a duration.
+Durations are listed in days.
+A duration consists of a positive number and the letter 'd'.
+Sample durations are: 1d, 5d 10d, 17d, and 200d.
+
+A task may have a list of predecessor tasks.
+MPK will schedule a task to start after all of its predecessors have finished.
+Predecessors are listed by name.
+Predecessors must be tasks that are already defined.
+
+A task may have a 'start no earlier than' data.
+This date is similar to a predecessor in that MPK will schedule the task to start on or after the specified date.
+
+Sample input files
+------------------
+
+A somewhat more complex input file is:
+
+2019-12-07
+1d introduce
+2d present
+close 1d
+
+This file defines a project start date (2019-12-07) and three tasks.
+Each task has a duration.
+Notice that the task name and the duration may appear in any order.
+
+There are no predecessors defined for any of the tasks, so each task will be scheduled to start on 2019-12-07.
+The project will end on 2019-12-09, which is when the longest task ('present') finishes.
+
+Predecessors
+~~~~~~~~~~~~
+
+We can specify predecessors for tasks:
+
+2019-12-07
+1d introduce
+2d present introduce
+close 1d present
+
+The 'present' and 'close' tasks now have predecessors.
+Predecessors may occur anywhere on the line.
+We could write the same project as:
+
+2019-12-07
+1d introduce
+introduce 2d present
+close present 1d
+
+
+MPK identifies the task name as the one undefined symbol.
+(There can be only one undefined symbol.)
+All other symbols must be defined, and the names of previous tasks.
+Thus, a task may not depend on a 'future' task, defined later in the file.
+
+
+We can use the special symbol '->' for predecessors when they are the previous task:
+
+2019-12-07
+1d introduce
+-> 2d present
+close -> 1d
+
+Which tends to look better when the '->' is at the front of the line:
+
+2019-12-07
+1d introduce
+-> 2d present
+-> close 1d
+
+Milestones
+~~~~~~~~~~
+
+Milestones are tasks with no duration.
+The same project with a milestone at the end is:
+
+2019-12-07
+1d introduce
+-> 2d present
+-> close 1d
+-> finished
+
+Header tasks and subtasks
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Header tasks are tasks that have subtasks.
+Header tasks do not have durations.
+The start date for a header task is calculated like any other task (on the end dates of predecessors).
+The start and end dates for subtasks are calculated based on end dates of predecessor tasks.
+Each subtask has an implied dependency on its header task, so it will not start before the header task starts.
+The end date for header tasks is calculated from the end dates of its subtasks.
+
+Subtasks are defined by indenting the line (just like Python).
+
+Here is a sample project that expands the 'present' task.
+
+2019-12-07
+1d introduce
+-> present
+ orientation
+ -> overview 1d
+ -> details 2d
+ -> special-cases 1d
+-> close 1d
+
+This project contains the header task 'present' and its subtasks are 'orientation', 'overview', 'details', and 'special-cases'.
+The indentation of one space marks these tasks as subtasks.
+
+The above project could be written as:
+
+2019-12-07
+introduce 1d
+present ->
+ orientation
+ overview -> 1d
+ details -> 2d
+ special-cases -> 1d
+close -> 1d
+
+
+It could also be written as:
+
+2019-12-07
+introduce 1d
+present introduce
+ orientation
+ overview orientation 1d
+ details overview 2d
+ special-cases details 1d
+close present 1d
+
+
+Or even:
+
+2019-12-07
+introduce       1d
+present             introduce
+ orientation
+ overview       1d  orientation
+ details        2d  overview
+ special-cases  1d  details
+close present   1d
+
+Indentation is important, but the spacing count is flexible (like in Python):
+
+2019-12-07
+introduce 1d
+present introduce
+  orientation
+  overview orientation 1d
+  details overview 2d
+  special-cases details 1d
+close present 1d
+
+and
+
+2019-12-07
+introduce       1d
+present                introduce
+    orientation
+    overview       1d  orientation
+    details        2d  overview
+    special-cases  1d  details
+close present   1d
+
+Work just as well.
+
+Task start dates
+~~~~~~~~~~~~~~~~
+
+A task may have an assigned start date.
+This is not quite true; the date indicates the earliest possible start.
+It does not fix the start of the task to a date.
+Predecessor tasks may push the start date to a later date.
+
+A task start date is a simple date in the task definition:
+
+2019-12-09
+introduce       1d
+present                introduce
+    orientation
+    overview       1d  orientation
+    details        2d  overview        2019-12-15
+    special-cases  1d  details
+close present   1d
+
+Output files
+------------
+
+MPK provides two possible output files: a schedule and a list.
+
+The schedule output is a list of tasks, each with a start and end date.
+
+The list is a detailed output which shows each task, its dependencies (or what MPK know as dependencies), and the work days assigned to the task.
