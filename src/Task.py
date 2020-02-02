@@ -17,7 +17,7 @@ def split_idents(idents, known_idents):
             old_idents.append(ident)
         else:
             new_idents.append(ident)
-    
+
     return new_idents, old_idents
 
 
@@ -64,7 +64,7 @@ def calc_work_days(first_day, duration, nonwork_dows, nonwork_dates, limit):
         walk = find_next_work_day(walk, nonwork_dows, nonwork_dates, limit)
         work_days.append(walk)
         walk = walk + one_day
-    
+
     if len(work_days) > 0:
         last_day = work_days[-1]
 

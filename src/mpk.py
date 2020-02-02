@@ -73,7 +73,7 @@ def split_to_lists(words, known_dow_keywords, known_ref_keywords):
         if is_ident(word) and not handled:
             idents.append(word)
             handled = True
-        
+
         if not handled:
             raise MpkTokenError('Unknown token ' + word)
 
@@ -99,7 +99,7 @@ def calculate_level(line, levels, level_tids, known_tids):
         while levels[-1] > level:
             del level_tids[levels[-1]]
             del levels[-1]
-    
+
     return level
 
 
@@ -124,7 +124,7 @@ def process_directive(tokens, known_dow_keywords, nonwork_dows, nonwork_dates):
     directive = directives[0]
 
     handled = False
-    
+
     if directive == '.no-work':
       for keyword in dow_keywords:
         dow = known_dow_keywords[keyword]
@@ -179,7 +179,6 @@ def read_tasks():
         idents = tokens['identifiers']
         durations = tokens['durations']
         dates = tokens['dates']
-        
 
         if len(directives) > 0:
           process_directive(tokens, known_dow_keywords, nonwork_dows, nonwork_dates)
