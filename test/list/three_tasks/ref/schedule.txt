@@ -1,7 +1,0 @@
-Project first day: 2019-12-07
-Project last day: 2019-12-08
-
-task	start	end
-introduce	2019-12-07	2019-12-07
-present	2019-12-07	2019-12-08
-close	2019-12-07	2019-12-07

@@ -35,7 +35,7 @@ def is_ident(word):
 
 
 def is_duration(word):
-    return re.match(r'\d+d$', word) is not None
+    return re.match(r'\d+[dw]$', word) is not None
 
 
 def split_to_lists(words, known_dow_keywords, known_ref_keywords):

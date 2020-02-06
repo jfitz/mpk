@@ -30,13 +30,24 @@ def decode_duration(word):
     if word[-1] == 'd':
         daycount = int(word[:-1])
         duration = timedelta(days = daycount)
+        unit = 'd'
 
-    return duration
+    if word[-1] == 'w':
+        weekcount = int(word[:-1])
+        duration = timedelta(days = weekcount * 7)
+        unit = 'w'
+
+    return duration, unit
 
 
 def is_nonworkday(d, nonwork_dows, nonwork_dates):
     dow = d.weekday()
     return dow in nonwork_dows or d in nonwork_dates
+
+
+def is_w_nonworkday(d, nonwork_dows):
+    dow = d.weekday()
+    return dow in nonwork_dows
 
 
 def find_next_work_day(walk, nonwork_dows, nonwork_dates, limit):
@@ -71,6 +82,24 @@ def calc_work_days(first_day, duration, nonwork_dows, nonwork_dates, limit):
     return last_day, work_days
 
 
+def calc_w_work_days(first_day, duration, nonwork_dows, limit):
+    day_count = duration.days
+    one_day = timedelta(days = 1)
+    last_day = first_day + duration
+    walk = first_day
+    work_days = []
+    for _ in range(0, day_count):
+        if not is_w_nonworkday(walk, nonwork_dows):
+            work_days.append(walk)
+
+        walk = walk + one_day
+
+    if len(work_days) > 0:
+        last_day = work_days[-1]
+
+    return last_day, work_days
+
+
 class Task:
     def __init__(self, idents, durations, known_tids, tasks, project_first_day_date, dates, level, parent_tid, nonwork_dows, nonwork_dates, ref_keywords):
         new_idents, old_idents = split_idents(idents, known_tids)
@@ -93,6 +122,7 @@ class Task:
         if parent_tid is not None:
             self.predecessors.append(parent_tid)
         self.duration = None
+        self.unit = None
         self.level = level
 
         # add '->' reference (most recent task at same level)
@@ -137,9 +167,13 @@ class Task:
 
         if len(durations) == 1:
             try:
-                self.duration = decode_duration(durations[0])
-                self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, nonwork_dows, nonwork_dates, nonwork_day_limit)
+                self.duration, self.unit = decode_duration(durations[0])
+                if self.unit == 'd':
+                    self.last_day, self.work_days = calc_work_days(self.first_day, self.duration, nonwork_dows, nonwork_dates, nonwork_day_limit)
 
+                if self.unit == 'w':
+                    self.last_day, self.work_days = calc_w_work_days(self.first_day, self.duration, nonwork_dows, nonwork_day_limit)
+                    
             except (MpkDurationError, MpkScheduleError) as error:
                 raise MpkTaskError(error.message)
 
@@ -162,7 +196,12 @@ class Task:
         s += ' (' + str(self.level) + ')'
 
         if self.duration is not None:
-            s += '\t' + str(self.duration.days) + 'd'
+            if self.unit == 'd':
+                days = self.duration.days
+                s += '\t' + str(days) + 'd'
+            if self.unit == 'w':
+                weeks = int(self.duration.days / 7)
+                s += '\t' + str(weeks) + 'w'
 
         preds = self.predecessors.copy()
         for d in self.dates:

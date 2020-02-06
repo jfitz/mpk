@@ -69,8 +69,8 @@ Sample names are: 'initiate', 'first-phase', and 'user-acceptance-tests'.
 
 A task may have a duration.
 Durations are listed in days.
-A duration consists of a positive number and the letter 'd'.
-Sample durations are: 1d, 5d 10d, 17d, and 200d.
+A duration consists of a positive number and either the letter 'd' or the letter 'w'.
+Sample durations are: 1d, 5w 10d, 14w, and 200d.
 
 A task may have a list of predecessor tasks.
 MPK will schedule a task to start after all of its predecessors have finished.
@@ -137,6 +137,23 @@ Which tends to look better when the '->' is at the front of the line:
 -> 2d present
 -> close 1d
 
+No-work days
+~~~~~~~~~~~~
+
+By default, MPK assigns work on every day of the week, and every day of the year.
+
+You can mark days of the week as no-work days, and you can mark specific dates as no-work dates.
+A no-work day of the week is effective for every instance of that day of the week.
+A no-work date specifies a single date.
+
+You can tell MPK to not assign work on Sundays with:
+
+.no-work sunday
+
+You can tell MPK to not assign work on US Independence Day with:
+
+.no-work 2020-07-04
+
 Milestones
 ~~~~~~~~~~
 
@@ -148,6 +165,32 @@ The same project with a milestone at the end is:
 -> 2d present
 -> close 1d
 -> finished
+
+Durations
+~~~~~~~~~
+
+Durations are specified in either days or weeks, and they behave differently.
+
+A task specified in days takes that many days to complete.
+No-work weekdays and no-work dates are not counted.
+A task with a duration of '3d' that starts on 2020-01-07 takes days 7, 8, and 9.
+The next task starts on 2020-01-10.
+
+If 2020-01-08 is marked as a no-work date, then the task takes days 7, 9, and 10.
+The next task starts on 2020-01-13 (because you have also marked sunday and saturday as no-work days).
+
+Tasks with durations specified in weeks are calculated differently.
+
+A task specified in weeks takes that many weeks to complete.
+That is not the same as multiplying the week count by seven.
+
+MPK computes the first day for the task based on predecessor tasks.
+MPK then computes the last day of the task based on the duration, respecting no-work days of week and ignoring no-work dates.
+Once the end date has been established, MPK then computes work days, and respects no-work days of week and no-work dates.
+
+Thus a task with a duration of '1w' that starts on Monday before Thanksgiving (and Thanksgiving Thursday and Friday are marked as no-work dates) has three work days.
+The task is complete on Wednesday, and the next task can begin on the Monday following Thanksgiving.
+
 
 Header tasks and subtasks
 ~~~~~~~~~~~~~~~~~~~~~~~~~
